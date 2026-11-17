@@ -135,3 +135,9 @@ Node 22.18 or later. The page gate needs Chromium once: `npx playwright install 
 - **EB Garamond** (embedded in the CSS, outlines in `brand/src/glyphs.json`): SIL Open Font License 1.1, Copyright
   2017 The EB Garamond Project Authors. Full text, next to each place the font ships: `html/OFL.txt`,
   `packages/design/OFL.txt`, `brand/src/OFL.txt`.
+
+## Keep your copy current
+
+Run `npm run check:update` before you start work. It tells you whether a newer version of the kit exists and how to
+update (`git pull`, then `npm install` and `npm run check`). If you work from copied files without git, ask the kit
+owner for the latest version.

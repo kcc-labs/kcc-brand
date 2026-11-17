@@ -19,7 +19,8 @@
     "check": "npm run tokens:check && npm run typecheck && npm run lint && npm run build && npm run check:pages && npm run check:pdf",
     "brand": "node scripts/build-brand.ts",
     "check:pages": "node scripts/check-pages.ts",
-    "check:pdf": "node scripts/check-pdf-text.ts"
+    "check:pdf": "node scripts/check-pdf-text.ts",
+    "check:update": "node scripts/check-update.ts"
   },
   "engines": {
     "node": ">=22.18.0"

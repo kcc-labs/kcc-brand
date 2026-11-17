@@ -23,6 +23,15 @@ unnecessary; every element earns its place. Do not copy Apple's look (no SF font
 - `data-kc-specimen` is only for blocks that show the scale or the palette on purpose. Do not use it to get a
   page under the budget.
 
+## Before you start: check for a newer version
+
+- At the start of every task with this kit, run `npm run check:update`. It fetches the remote and says whether newer
+  commits exist. It changes nothing.
+- If a newer version exists, tell the user in one line what is new (the latest commit) and offer to update
+  (`git pull`, then `npm install` and `npm run check`). Do not update without the user's yes.
+- If you only have copied files (a single-file page, `kcc.css`, logos) and no git checkout, say which version or
+  date you have and suggest getting the latest kit from its owner.
+
 ## Commands
 
 - `npm install`: install (Node 22.18 or later; Node runs the `.ts` scripts directly).
@@ -37,6 +46,7 @@ unnecessary; every element earns its place. Do not copy Apple's look (no SF font
   (`npm run check:pdf`: prints every single-file page and fails on a split word). It must pass before you finish. First run on a machine:
   `npx playwright install chromium`.
 - `node scripts/check-pages.ts --verbose`: the page gate with every warning listed.
+- `npm run check:update`: is a newer version of the kit on the remote? Read-only.
 
 ## Source of truth
 
