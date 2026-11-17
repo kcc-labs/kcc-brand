@@ -54,7 +54,7 @@ meaning alone: a change also has a sign or a word. Every text pair passes WCAG 2
 
 ## Type
 
-EB Garamond for words, titles and big figures; the system sans for data, tables and controls; tabular figures for
+EB Garamond for words, titles and big figures; a static system sans (Helvetica Neue, Helvetica, Arial) for data, tables and controls; tabular figures for
 numbers. Sizes come from a fixed scale (`--kc-text-*`); running text is at least 17 px. The kit embeds EB Garamond
 (latin) in the CSS and preloads it, so text never moves when the page loads. See `DESIGN.md` (type) and
 `docs/math.md`.

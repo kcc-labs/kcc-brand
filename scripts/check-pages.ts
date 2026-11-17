@@ -41,7 +41,7 @@ for (const [k, v] of entries(raw.budget)) {
 }
 const showBudget = process.argv.includes("--budget");
 const require = createRequire(join(root, "packages/design/package.json"));
-const fontDir = join(dirname(require.resolve("@fontsource-variable/eb-garamond/package.json")), "files");
+const fontDir = join(dirname(require.resolve("@fontsource/eb-garamond/package.json")), "files");
 
 const FONT_DELAY = 1500; // ms: well past the 100 ms block period of font-display (CSS Fonts 4, section 4.9)
 const IMAGE_DELAY = 800;
@@ -99,10 +99,10 @@ const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
  */
 function googleCss(url: string): string {
   const display = new URL(url).searchParams.get("display") ?? "auto";
-  const face = (style: string, file: string, range: string) =>
-    `@font-face{font-family:'EB Garamond';font-style:${style};font-weight:400 800;font-display:${display};src:url(https://fonts.gstatic.com/kcc/${file}) format('woff2');unicode-range:${range};}`;
+  const face = (style: string, weight: number) =>
+    `@font-face{font-family:'EB Garamond';font-style:${style};font-weight:${weight};font-display:${display};src:url(https://fonts.gstatic.com/kcc/eb-garamond-latin-${weight}-${style}.woff2) format('woff2');unicode-range:${latin};}`;
   const latin = "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD";
-  return face("normal", "eb-garamond-latin-wght-normal.woff2", latin) + face("italic", "eb-garamond-latin-wght-italic.woff2", latin);
+  return [400, 500].flatMap((w) => [face("normal", w), face("italic", w)]).join("");
 }
 
 async function route(page: Page, scenario: Scenario) {
@@ -257,7 +257,7 @@ function lint(f: Record<string, number>): { findings: Finding[]; metrics: Record
     if (cells && values < cells) out.push({ rule: "colour.redundancy", detail: `heatmap prints ${values} of ${cells} cell values: "${svg.getAttribute("aria-label")}"` });
   }
   /* The embedded EB Garamond face is in use (a page that silently fell back would pass the shift test). */
-  if (document.querySelector(".kc-title, .kc-h2, .kc-lede") && ![...document.fonts].some((x) => x.family.replace(/"/g, "") === "EB Garamond Variable" && x.status === "loaded")) {
+  if (document.querySelector(".kc-title, .kc-h2, .kc-lede") && ![...document.fonts].some((x) => x.family.replace(/["']/g, "") === "EB Garamond" && x.status === "loaded")) {
     out.push({ rule: "font.embedded", detail: "EB Garamond is not loaded after a fast load: check <FontPreload /> or the preload link" });
   }
 

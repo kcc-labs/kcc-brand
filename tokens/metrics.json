@@ -1,5 +1,5 @@
 {
-  "source": "@fontsource-variable/eb-garamond, files/eb-garamond-latin-wght-normal.woff2 (default instance, weight 400)",
+  "source": "@fontsource/eb-garamond, files/eb-garamond-latin-400-normal.woff2 (static, weight 400)",
   "unitsPerEm": 1000,
   "xHeight": 0.4,
   "capHeight": 0.65,

@@ -461,8 +461,8 @@ export const rampSteps = {
   "950": 0.21
 } as const;
 export const font = {
-  "serif": "\"EB Garamond\", \"EB Garamond Variable\", \"EB Garamond Fallback\", Georgia, \"Times New Roman\", serif",
-  "sans": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+  "serif": "\"EB Garamond\", \"EB Garamond Fallback\", Georgia, \"Times New Roman\", serif",
+  "sans": "\"Helvetica Neue\", Helvetica, Arial, sans-serif",
   "mono": "ui-monospace, \"SFMono-Regular\", Menlo, Consolas, monospace"
 } as const;
 /** Type sizes in px, with the formula that made them. */

@@ -340,7 +340,7 @@ const fillBlocks = (text: string, b: Record<string, string>) =>
 
 const components = readFileSync(at("packages/design/css/components.css"), "utf8");
 const embed = readFileSync(at("packages/design/css/font-embed.css"), "utf8");
-const fontPreload = `<link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="${embed.match(/url\((data:font\/woff2;base64,[^)]+)\)/)![1]}">`;
+const fontPreload = [...embed.matchAll(/url\((data:font\/woff2;base64,[^)]+)\)/g)].map((m) => `<link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="${m[1]}">`).join("\n");
 const kccCss = `/* KC&C design system, single-file kit v${k.version}: EB Garamond (latin, embedded), tokens, components. Generated;
    edit the sources in kcc-design. Paste into a <style> element (see starter.html). It needs no network. */\n${embed}\n${tokensCss.replace(HEAD, "")}\n${components}`;
 
@@ -376,8 +376,9 @@ const starter = `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Page title</title>
-<!-- EB Garamond is embedded in the CSS below. This preload of the same data makes it ready before the first paint,
-     so text never moves when the font arrives. Keep it, and keep it before the <style>. -->
+<!-- EB Garamond is embedded in the CSS below (static faces: variable fonts split words in PDF text). These preloads
+     of the same data make it ready before the first paint, so text never moves when the font arrives. Keep them,
+     and keep them before the <style>. -->
 ${fontPreload}
 <style>
 ${kccCss}
@@ -490,7 +491,7 @@ const fillShowcase = (text: string) =>
 
 /* ---------- Font licence (SIL OFL 1.1), copied from the font package next to every place the font ships ---------- */
 
-const fontPkg = dirname(createRequire(at("packages/design/package.json")).resolve("@fontsource-variable/eb-garamond/package.json"));
+const fontPkg = dirname(createRequire(at("packages/design/package.json")).resolve("@fontsource/eb-garamond/package.json"));
 const oflText = (() => {
   const [first, ...rest] = readFileSync(join(fontPkg, "LICENSE"), "utf8").split("\n");
   // The package's first line repeats the copyright once per font file; keep one copyright line.

@@ -1,5 +1,5 @@
 /*
- * Measures EB Garamond from the self-hosted woff2 (default instance, weight 400) and the local fallback serif
+ * Measures EB Garamond from the self-hosted static woff2 (weight 400) and the local fallback serif
  * (Times New Roman, or the metric-compatible Liberation Serif), and writes:
  *
  *   tokens/metrics.json             units per em, x-height, cap height, vertical metrics, the average advance of
@@ -7,6 +7,12 @@
  *                                   characters per line, and the fallback overrides computed from both fonts
  *   packages/design/css/fonts.css   the EB Garamond faces with font-display: optional (no swap after first
  *                                   paint, so no layout shift), and the metric-matched fallback face
+ *   packages/design/css/font-embed.css, packages/design/src/font-data.ts
+ *                                   the latin faces of the weights the serif uses, embedded as data URLs
+ *
+ * The faces are STATIC instances (@fontsource/eb-garamond), one file a weight, never the variable font: Chromium
+ * draws a variable font into a PDF as Type 3 glyph drawings, and text extracted from those splits words
+ * (docs/evidence.md, static fonts in printed documents; scripts/check-pdf-text.ts gates it).
  *
  *   node scripts/measure-font.ts           write both files
  *   node scripts/measure-font.ts --check   fail if a file is out of date
@@ -35,7 +41,13 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const r3 = (v: number) => Math.round(v * 1000) / 1000;
 const r4 = (v: number) => Math.round(v * 10000) / 10000;
 const require = createRequire(join(root, "packages/design/package.json"));
-const fontPath = join(dirname(require.resolve("@fontsource-variable/eb-garamond/package.json")), "files/eb-garamond-latin-wght-normal.woff2");
+const pkgDir = dirname(require.resolve("@fontsource/eb-garamond/package.json"));
+/** The weights the serif uses (tokens.json -> weight: regular for text, medium for headings and figures). Each one
+ *  is a static face; a weight without its own face would be synthesised, and Chromium prints synthetic bold as
+ *  Type 3 glyphs too. */
+const SERIF_WEIGHTS = [400, 500];
+const latinFile = (w: number) => join(pkgDir, `files/eb-garamond-latin-${w}-normal.woff2`);
+const fontPath = latinFile(400);
 
 const KNOWN = ["cmap", "head", "hhea", "hmtx", "maxp", "name", "OS/2", "post", "cvt ", "fpgm", "glyf", "loca", "prep", "CFF ", "VORG", "EBDT", "EBLC", "gasp", "hdmx", "kern", "LTSH", "PCLT", "VDMX", "vhea", "vmtx", "BASE", "GDEF", "GPOS", "GSUB", "EBSC", "JSTF", "MATH", "CBDT", "CBLC", "COLR", "CPAL", "SVG ", "sbix", "acnt", "avar", "bdat", "bloc", "bsln", "cvar", "fdsc", "feat", "fmtx", "fvar", "gvar", "hsty", "just", "lcar", "mort", "morx", "opbd", "prop", "trak", "Zapf", "Silf", "Glat", "Gloc", "Feat", "Sill"];
 
@@ -181,10 +193,10 @@ const overrides = {
 const k = compute(loadRaw(root));
 const read = k.text.read.px, lg = k.text.lg.px, sm = k.text.sm.px;
 const measure = k.layout.measure.px, wide = k.layout["measure-wide"].px, golden = k.layout.golden.px;
-// System sans differs per platform; 0.5 em is a typical running-text advance for SF, Segoe UI and Roboto (estimate).
+// The sans is a system font (Helvetica Neue, Helvetica or Arial); 0.5 em is a typical running-text advance for them (estimate).
 const sansAvg = 0.5;
 const metrics = {
-  source: "@fontsource-variable/eb-garamond, files/eb-garamond-latin-wght-normal.woff2 (default instance, weight 400)",
+  source: "@fontsource/eb-garamond, files/eb-garamond-latin-400-normal.woff2 (static, weight 400)",
   unitsPerEm: upm,
   xHeight: r3(os2.readInt16BE(86) / upm),
   capHeight: r3(os2.readInt16BE(88) / upm),
@@ -204,38 +216,47 @@ const metrics = {
 
 /* ---------- fonts.css ---------- */
 
-const pkgDir = dirname(fontPath).replace(/\/files$/, "");
-const LATIN = "eb-garamond-latin-wght-normal";
-const all = ["wght.css", "wght-italic.css"].map((f) => readFileSync(join(pkgDir, f), "utf8")).join("\n");
+const LATIN = (w: number) => `eb-garamond-latin-${w}-normal`;
+const all = SERIF_WEIGHTS.flatMap((w) => [`${w}.css`, `${w}-italic.css`]).map((f) => readFileSync(join(pkgDir, f), "utf8")).join("\n");
 const blocks = [...all.matchAll(/\/\* ([\w-]+) \*\/\s*(@font-face \{[\s\S]*?\})/g)];
-const latin = blocks.find((b) => b[1] === LATIN);
-if (!latin) throw new Error(`fontsource CSS has no ${LATIN} face`);
-// The latin upright face is embedded, so it is ready at the first layout: no font request, no swap, no shift.
-const dataUrl = `data:font/woff2;base64,${readFileSync(fontPath).toString("base64")}`;
+const embedded = SERIF_WEIGHTS.map((w) => {
+  const b = blocks.find((x) => x[1] === LATIN(w));
+  if (!b) throw new Error(`fontsource CSS has no ${LATIN(w)} face`);
+  return { w, css: b[2], dataUrl: `data:font/woff2;base64,${readFileSync(latinFile(w)).toString("base64")}` };
+});
+// The latin upright faces are embedded, so they are ready at the first layout: no font request, no swap, no shift.
+const NAMES: Record<number, string> = { 400: "regular", 500: "medium" };
 const fontDataTs = `// Generated by scripts/measure-font.ts. Do not edit.
-/** EB Garamond latin upright (SIL OFL 1.1) as a data URL: the same string as font-embed.css, so a preload of it
- *  is the font the page uses. <FontPreload /> renders the preload. */
-export const ebGaramondLatin = "${dataUrl}";
+/** EB Garamond latin upright (SIL OFL 1.1), one static face a weight, as data URLs: the same strings as
+ *  font-embed.css, so a preload of each is the font the page uses. <FontPreload /> renders the preloads. */
+export const ebGaramondLatin = {
+${embedded.map((e) => `  ${NAMES[e.w]}: "${e.dataUrl}",`).join("\n")}
+} as const;
 `;
-const embedCss = `/* Generated by scripts/measure-font.ts from @fontsource-variable/eb-garamond (SIL OFL 1.1). Do not edit.
-   EB Garamond, latin upright, embedded as a data URL: the face is ready at the first layout, so text never swaps
-   fonts and never moves (docs/evidence.md, layout stability), provided the page also preloads the same data URL
-   (<FontPreload /> in React; the single-file kit has the <link> in its head). Without the preload Chrome may
+const embedCss = `/* Generated by scripts/measure-font.ts from @fontsource/eb-garamond (SIL OFL 1.1). Do not edit.
+   EB Garamond, latin upright, weights ${SERIF_WEIGHTS.join(" and ")}: static faces (never the variable font, whose PDF text
+   splits words; docs/evidence.md), embedded as data URLs. The faces are ready at the first layout, so text never
+   swaps fonts and never moves (docs/evidence.md, layout stability), provided the page also preloads the same data
+   URLs (<FontPreload /> in React; the single-file kit has the <link>s in its head). Without the preloads Chrome may
    paint one frame with the fallback first. Other scripts and the italic load on demand. */
-${latin[2]
-  .replace(/src: url\([^)]*\)/, `src: url(${dataUrl})`)
-  .replace("font-display: swap;", "font-display: block;")}
+${embedded
+  .map((e) =>
+    e.css
+      .replace(/src: url\([^;]*;/, `src: url(${e.dataUrl}) format('woff2');`)
+      .replace("font-display: swap;", "font-display: block;"),
+  )
+  .join("\n\n")}
 `;
 const rest = blocks
-  .filter((b) => b[1] !== LATIN)
+  .filter((b) => !SERIF_WEIGHTS.some((w) => b[1] === LATIN(w)))
   .map((b) => `/* ${b[1]} */\n${b[2]}`)
   .join("\n\n")
-  .replace(/url\(\.\/files\//g, "url(@fontsource-variable/eb-garamond/files/")
+  .replace(/url\(\.\/files\//g, "url(@fontsource/eb-garamond/files/")
   .replace(/font-display: swap;/g, "font-display: optional;");
-const fontsCss = `/* Generated by scripts/measure-font.ts from @fontsource-variable/eb-garamond. Do not edit.
-   EB Garamond, self-hosted (no network at build or run time). The family registers as "EB Garamond Variable";
-   --kc-serif lists it after "EB Garamond" and before "EB Garamond Fallback" (tokens.css).
-   The latin upright face is embedded (font-embed.css). The other faces use font-display: optional: when one is
+const fontsCss = `/* Generated by scripts/measure-font.ts from @fontsource/eb-garamond. Do not edit.
+   EB Garamond, self-hosted (no network at build or run time), static faces for weights ${SERIF_WEIGHTS.join(" and ")} only.
+   The family registers as "EB Garamond", the first name in --kc-serif (tokens.css).
+   The latin upright faces are embedded (font-embed.css). The other faces use font-display: optional: when one is
    not ready within the block period, this view keeps the measured fallback and never swaps, so text does not
    move; the next view has it from the cache. The url() paths are package paths; Next resolves them. */
 @import "./font-embed.css";

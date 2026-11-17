@@ -1,0 +1,28 @@
+<!doctype html>
+<!-- Self-test for scripts/check-pdf-text.ts: this page sets its text in a variable font (EB Garamond, the
+     @fontsource-variable build, a root devDependency kept for this test only). Chromium's PDF output splits words
+     set in a variable font, so the gate must find split words here. If it does not, the gate fails. Do not fix. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF text gate self-test</title>
+<style>
+  @font-face {
+    font-family: "Variable Serif";
+    font-weight: 400 800;
+    src: url(../../node_modules/@fontsource-variable/eb-garamond/files/eb-garamond-latin-wght-normal.woff2) format("woff2");
+  }
+  body { margin: 21px; font: 19px/1.55 "Variable Serif"; max-width: 640px; }
+  h1 { font-weight: 500; font-size: 43px; line-height: 1.08; }
+  p.medium { font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>Your roadmap for the pilot</h1>
+<p>Each lending pool reports its liquidations, its suppliers and its borrowers once a day. Document every change to a
+risk parameter with its date, its basis and the name of the person who approved it. Capacity rose +12% over the
+quarter in the sample data.</p>
+<p class="medium">Every figure in this document has a unit, a basis and a date. Sample data.</p>
+</body>
+</html>

@@ -162,6 +162,11 @@ modular scales read better; we keep it as taste and label it so.
 Weights: serif 400 for text, 500 for headings and figures. Sans 400 for text, 600 for headers, labels, diff
 chips and buttons. Do not use other weights.
 
+Fonts are static, never variable: EB Garamond ships one static face a weight (400, 500), and the sans is
+`"Helvetica Neue", Helvetica, Arial, sans-serif`, not `system-ui` (SF Pro on macOS is variable). Chromium prints
+variable fonts and synthesised weights as Type 3 glyphs, and copied PDF text then splits words. *(our CI measurement,
+docs/evidence.md; `npm run check:pdf`)*
+
 ## 4. Spacing and layout
 
 - Space steps (Fibonacci): s1 5, s2 8, s3 13, s4 21, s5 34, s6 55, s7 89, s8 144. Do not use other values.

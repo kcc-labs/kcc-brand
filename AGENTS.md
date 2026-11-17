@@ -33,7 +33,8 @@ unnecessary; every element earns its place. Do not copy Apple's look (no SF font
 - `npm run dev`: playground at http://localhost:3000.
 - `npm run check`: the gate. It runs, in order: the tokens check (stale files, WCAG 2.2 contrast, colour-vision
   pairs, evidence floors, font metrics, the Tailwind preset), typecheck, lint, the production build, then the page
-  gate (`npm run check:pages`, Playwright Chromium; it includes the complexity budget). It must pass before you finish. First run on a machine:
+  gate (`npm run check:pages`, Playwright Chromium; it includes the complexity budget), then the PDF text gate
+  (`npm run check:pdf`: prints every single-file page and fails on a split word). It must pass before you finish. First run on a machine:
   `npx playwright install chromium`.
 - `node scripts/check-pages.ts --verbose`: the page gate with every warning listed.
 
@@ -56,6 +57,9 @@ unnecessary; every element earns its place. Do not copy Apple's look (no SF font
   If no token fits, add a parameter to `tokens.json`. Do not add a one-off value.
 - Radius is 0, or `--kc-radius-small` on inputs, selects and pills. Everything else not to do: DESIGN.md, Don'ts.
 - Serif for words and big figures, sans for data and interface (DESIGN.md, section 2).
+- **Printed documents use static fonts only; variable fonts break PDF text.** Chromium prints a variable font (or
+  a synthesised weight) as Type 3 glyphs, and copied text splits words ("liq|uidations"). Never add a variable
+  font, `system-ui`, or a weight without its own static face (`npm run check:pdf` gates it; docs/evidence.md).
 - Every figure in an example has a unit, basis and date. Invented data is labelled "Sample data".
 - Components have no hooks and no `"use client"`, so they work in Server Components. Put interactivity in the app.
 - CSS classes use the `kc-` prefix with BEM parts (`kc-legal__cell`) and modifiers (`kc-pill--watch`). Put new
@@ -88,7 +92,7 @@ unnecessary; every element earns its place. Do not copy Apple's look (no SF font
   name of a real client, prospect or partner, their data, their simulation results, a "Confidential — for <name>"
   mark with a real name, a party id, a real email address, an internal host or path, or a secret. Examples use
   fictional names ("Example Lending Pool", "Northwind Capital") and round numbers labelled "Sample data".
-- Print with `scripts/print-pdf.sh page.html out.pdf [scale]`. To fit more on a page, pass a scale (for example 0.8); never shrink with CSS `zoom` or `transform`: they give fractional widths and the page margin clips borders on the right edge. `print-pdf.ts` also keeps content 2px inside the printable area, because a 1px border that ends exactly on its edge is half cut.
+- Print with `scripts/print-pdf.sh page.html out.pdf [scale]`. To fit more on a page, pass a scale (for example 0.8); never shrink with CSS `zoom` or `transform`: they give fractional widths and the page margin clips borders on the right edge. `print-pdf.ts` also turns kerning off in print (kerned pairs such as "We" copy out of the PDF as "W e") and keeps content 2px inside the printable area, because a 1px border that ends exactly on its edge is half cut.
 - Review every printed document page by page: `scripts/print-pdf.sh page.html out.pdf` writes the PDF and one PNG per
   page; look at each page for orphaned headings, half-empty pages and clipped charts before sending.
 
@@ -106,7 +110,8 @@ unnecessary; every element earns its place. Do not copy Apple's look (no SF font
 | Failure | Fix |
 |---|---|
 | `layout-shift` (any shift > 0, fonts delayed or blocked, images delayed) | Give every `img` `width` and `height`; draw charts with the chart functions (SVG with a `viewBox`); never insert content above content already shown; reserve the final height of any slot filled later. Keep `<FontPreload />` in the root `<head>` (React) or the preload `<link>` (single file). Do not set `font-display: swap`. |
-| `font.embedded` | The embedded EB Garamond is not in use: restore `<FontPreload />` or the preload link, and `@kcc/design/fonts.css`. |
+| `font.embedded` | The embedded EB Garamond is not in use: restore `<FontPreload />` or the preload links, and `@kcc/design/fonts.css`. |
+| `pdf.text` (a word split in the printed PDF, or found only in a Type 3 run) | Use static fonts only: no `system-ui`, no variable font, no weight without its own face (serif 400 and 500 are embedded). `node scripts/check-pdf-text.ts --verbose` lists the words. |
 | `type.size` (running text < 17 px) | Running text (2+ lines) uses `--kc-text-base` or larger. Notes, captions and footers may stay smaller (warnings), but text a reader must act on may not. |
 | `type.line-height` (< 1.2) | Use `--kc-leading-data` or `--kc-leading-body` for running text. |
 | `type.measure` (≤ 25 characters a line) | On phones, stack columns so running text takes the full width. |

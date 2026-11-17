@@ -34,6 +34,7 @@ below. Claims that the verification refuted are not used anywhere.
 | Characters per line = width / (measured advance × size) | Math + CI | 0.380 em for EB Garamond running text | `scripts/measure-font.ts`, `tokens/metrics.json` | high | `tokens:check` |
 | Lining tabular figures in data | Math | — | Tabular figures share one advance width (OpenType `tnum`), so digits of one place align. No study on reading speed was verified | high (alignment); unverified (speed) | — |
 | Serif for words, sans for data | Convention | — | No verified study; serif vs sans legibility is unverified | — | — |
+| Printed documents use static fonts only: EB Garamond as static faces (400, 500), sans `"Helvetica Neue", Helvetica, Arial, sans-serif` | CI | 0 split words | Our measurement, 17 Nov 2026 (Playwright 1.65.1 Chromium, macOS): Chromium writes text set in a variable font, or in a weight it synthesises, as Type 3 fonts (one drawing a glyph, placed one glyph at a time); static fonts go in as TrueType (CIDFontType2). macOS PDFKit (Preview, copy and paste) split 139 words in the 9 single-file pages with the variable EB Garamond and `system-ui` (SF Pro, variable; it has an `fvar` table); with static faces and the static sans, 0 of those splits remain. Georgia or Arial alone removed them in the bisect; letter-spacing, kerning, `font-feature-settings` and `text-rendering` did not. Helvetica Neue, Helvetica and Arial on macOS have no `fvar` table (static); Segoe UI and Roboto were dropped from the stack (Roboto is variable on Android 12+; Arial covers Windows) | high (measured on macOS; the Type 3 output is Chromium's, on every platform) | `npm run check:pdf` (`scripts/check-pdf-text.ts`), self-test `scripts/fixtures/pdf-variable-font.html` |
 | Type scale: text 13 + 2n px, display 13 × √φᵏ | Convention (exact arithmetic) | — | No study supports golden-ratio or modular scales; kept as the owner's taste | — | build checks the formulas |
 | Uppercase only for short labels, 0.04–0.06 em tracking; no italics for emphasis | Convention | — | — | — | — |
 
@@ -42,7 +43,7 @@ below. Claims that the verification refuted are not used anywhere.
 | Rule | Basis | Threshold | Source | Confidence | Gate |
 |---|---|---|---|---|---|
 | No layout shift after first paint, with fonts delayed, fonts blocked and images delayed | CI (stricter than the standard) | any shift > 0 fails | Shift score = impact fraction × distance fraction (web.dev, Layout Instability API). Google's "good" CLS ≤ 0.1 is a field target at the 75th percentile, chosen from achievability data, not a perceptual threshold. A template we control can reach 0, and any lab shift has a cause we can fix. https://web.dev/articles/cls | high (definition); the 0 limit is our choice | page gate `layout-shift`, 24 pages × 2 viewports × 3 network conditions |
-| EB Garamond latin embedded as a data URL and preloaded | CI | — | Measured: without the preload, Chrome painted one frame in the fallback over HTTP and shifted (0.0306 on the starter at 320 px) | high | page gate `layout-shift`, `font.embedded` |
+| EB Garamond latin embedded as data URLs (static 400 and 500) and preloaded | CI | — | Measured: without the preload, Chrome painted one frame in the fallback over HTTP and shifted (0.0306 on the starter at 320 px) | high | page gate `layout-shift`, `font.embedded` |
 | Other EB Garamond faces use `font-display: optional` | Standard (behaviour) + CI | — | CSS Fonts 4 §4.9: with optional, a font not ready in time is treated as if its block and swap periods expired, so it never swaps in later. https://www.w3.org/TR/css-fonts-4/ | high | page gate |
 | Fallback serif sized to EB Garamond: size-adjust 94.31%, ascent 106.78%, descent 31.60%, line gap 0% | Math + Standard | computed | CSS Fonts 5 §4.4–4.5: size-adjust scales glyphs and every metric, including the overrides, so override = metric / unitsPerEm / size-adjust. https://www.w3.org/TR/css-fonts-5/ ; values from both fonts' tables by `scripts/measure-font.ts` | high (math); the fallback only shows if the embedded font fails | `tokens:check` |
 | Every img has width and height; every chart SVG has a viewBox | Standard (behaviour) + CI | — | The browser reserves the box from the attributes or the viewBox before the image loads | high | page gate `layout.media-size` |
@@ -175,6 +176,12 @@ legends that repeated the stacked area's end labels, 1 area fill on a non-zero a
 group header row, 4 designer captions and notes, 4 decorative figures on the home page, 4 repeated "sample data"
 lines, the proposal's scope callout (folded into the lede), the flow strip's frame and tint, the logo-tile and
 showcase-tile borders, and 10 headings shortened or rewritten as findings.
+
+PDF text gate (`scripts/check-pdf-text.ts`), added 17 Nov 2026: 9 single-file pages printed with
+`scripts/print-pdf.ts`. Before, with the variable EB Garamond and `system-ui`: PDF.js found 4,662 words of page text
+only in Type 3 runs; PDFKit split 139 ("liq|uidations", "Docu|ment", "PR|OPOSAL"). After, with static faces: 0 and 0.
+PDFKit put a space inside words with a kerned capital ("W|e", "T|wo", "Y|ours"). `scripts/print-pdf.ts` therefore turns kerning off in print (`font-kerning: none`): measured on a six-page proposal, 1 split word with kerning, 0 without; the owner chose clean copy over kerning in PDFs (17 Nov 2026). Screens keep kerning. One chart end label
+(research note, "$0.260") is clipped in print and missing from the PDF: a warning of the gate, not a split.
 
 ## 3. Topics without verified evidence
 
