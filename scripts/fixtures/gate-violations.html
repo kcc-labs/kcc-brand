@@ -1,0 +1,37 @@
+<!doctype html>
+<!-- Self-test for scripts/check-pages.ts: every rule of the page gate must fire on this page. If one does not,
+     the gate has stopped working, and the build fails. Do not fix the violations. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gate self-test</title>
+<style>
+  body { margin: 21px; font: 17px/1.5 Georgia, serif; }
+  .small, .tight { max-width: 380px; }
+  .small { font-size: 14px; }
+  .tight { line-height: 1; }
+  .narrow { width: 120px; }
+  .tiny { width: 16px; height: 16px; padding: 0; border: 1px solid; }
+</style>
+</head>
+<body>
+<h1 class="kc-title">Gate self-test</h1>
+<div id="late"></div>
+<p class="small">type.size: this paragraph is running text at 14 px, under the floor, and it is long enough to wrap onto two lines or more at any viewport.</p>
+<p class="tight">type.line-height: this paragraph is running text set solid, at a line height of 1.0, under the 1.2 floor, and it wraps onto two or more lines at any width.</p>
+<p class="narrow">type.measure: a column this narrow holds far fewer than twenty-five characters a line.</p>
+<p><button class="tiny" aria-label="a"></button><button class="tiny" aria-label="b"></button></p>
+<svg role="img" aria-label="chart.value-axis and chart.grid-gap" viewBox="0 0 400 60" width="400" height="60">
+  <line class="kc-c-grid" x1="0" x2="400" y1="10" y2="10"/><line class="kc-c-grid" x1="0" x2="400" y1="14" y2="14"/><line class="kc-c-axis" x1="0" x2="400" y1="50" y2="50"/>
+  <rect class="kc-c-up" x="10" y="20" width="50" height="30"><title>A: 5%</title></rect>
+</svg>
+<p><span class="kc-diff kc-diff--down">12%</span></p>
+<img src="/brand/icons/kcc/icon-48.png" alt="layout.media-size">
+<div style="width: 3000px; height: 1px">layout.reflow</div>
+<script>
+  // layout-shift: content inserted above existing content after the first paint.
+  setTimeout(() => { document.getElementById("late").style.height = "80px"; }, 300);
+</script>
+</body>
+</html>

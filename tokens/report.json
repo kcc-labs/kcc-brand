@@ -1,0 +1,1417 @@
+{
+  "generated": "scripts/build-tokens.ts",
+  "methods": {
+    "wcag": "WCAG 2.2 contrast ratio, rounded down",
+    "apca": "APCA 0.0.98G-4g Lc, signed (positive: dark on light)",
+    "cvd": "Machado 2009 simulation, severity 1; distance = OKLab Euclidean x 100 (about 2 is just noticeable)"
+  },
+  "contrast": [
+    {
+      "fg": "color.ink",
+      "bg": "color.paper",
+      "min": 4.5,
+      "apcaTarget": 75,
+      "use": "Body text",
+      "light": {
+        "wcag": 16.03,
+        "apca": 95.6
+      },
+      "dark": {
+        "wcag": 14.08,
+        "apca": -90.5
+      }
+    },
+    {
+      "fg": "color.muted",
+      "bg": "color.paper",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Secondary text",
+      "light": {
+        "wcag": 7.74,
+        "apca": 81
+      },
+      "dark": {
+        "wcag": 8.49,
+        "apca": -60.7
+      }
+    },
+    {
+      "fg": "color.ink",
+      "bg": "color.paper-2",
+      "min": 4.5,
+      "apcaTarget": 75,
+      "use": "Text on sunk area",
+      "light": {
+        "wcag": 14.76,
+        "apca": 90.3
+      },
+      "dark": {
+        "wcag": 12.45,
+        "apca": -89
+      }
+    },
+    {
+      "fg": "color.muted",
+      "bg": "color.paper-2",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Secondary text on sunk area",
+      "light": {
+        "wcag": 7.13,
+        "apca": 75.7
+      },
+      "dark": {
+        "wcag": 7.5,
+        "apca": -59.2
+      }
+    },
+    {
+      "fg": "color.ink",
+      "bg": "color.field",
+      "min": 4.5,
+      "apcaTarget": 75,
+      "use": "Text in inputs",
+      "light": {
+        "wcag": 16.9,
+        "apca": 99.1
+      },
+      "dark": {
+        "wcag": 13.21,
+        "apca": -89.8
+      }
+    },
+    {
+      "fg": "color.muted",
+      "bg": "color.field",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Units and hints in inputs",
+      "light": {
+        "wcag": 8.16,
+        "apca": 84.5
+      },
+      "dark": {
+        "wcag": 7.96,
+        "apca": -59.9
+      }
+    },
+    {
+      "fg": "color.paper",
+      "bg": "color.ink",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Primary button label",
+      "light": {
+        "wcag": 16.03,
+        "apca": -96.7
+      },
+      "dark": {
+        "wcag": 14.08,
+        "apca": 89.7
+      }
+    },
+    {
+      "fg": "color.up",
+      "bg": "color.paper",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Diff chip and pill, better",
+      "light": {
+        "wcag": 9.92,
+        "apca": 86.4
+      },
+      "dark": {
+        "wcag": 10.5,
+        "apca": -72.3
+      }
+    },
+    {
+      "fg": "color.down",
+      "bg": "color.paper",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Diff chip and pill, worse; errors",
+      "light": {
+        "wcag": 5.65,
+        "apca": 71.6
+      },
+      "dark": {
+        "wcag": 7.22,
+        "apca": -53.3
+      }
+    },
+    {
+      "fg": "color.watch",
+      "bg": "color.paper",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Pill, watch",
+      "light": {
+        "wcag": 10.36,
+        "apca": 87.6
+      },
+      "dark": {
+        "wcag": 8.67,
+        "apca": -61.9
+      }
+    },
+    {
+      "fg": "color.up",
+      "bg": "color.paper-2",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Diff chip on sunk area",
+      "light": {
+        "wcag": 9.14,
+        "apca": 81.1
+      },
+      "dark": {
+        "wcag": 9.28,
+        "apca": -70.8
+      }
+    },
+    {
+      "fg": "color.down",
+      "bg": "color.paper-2",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Diff chip on sunk area",
+      "light": {
+        "wcag": 5.21,
+        "apca": 66.3
+      },
+      "dark": {
+        "wcag": 6.38,
+        "apca": -51.8
+      }
+    },
+    {
+      "fg": "color.watch",
+      "bg": "color.paper-2",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Watch text on sunk area",
+      "light": {
+        "wcag": 9.54,
+        "apca": 82.3
+      },
+      "dark": {
+        "wcag": 7.66,
+        "apca": -60.3
+      }
+    },
+    {
+      "fg": "color.rule",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Section rules (graphic)",
+      "light": {
+        "wcag": 16.03,
+        "apca": 95.6
+      },
+      "dark": {
+        "wcag": 11.49,
+        "apca": -77.4
+      }
+    },
+    {
+      "fg": "color.control",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Control borders (WCAG 1.4.11)",
+      "light": {
+        "wcag": 5.21,
+        "apca": 70.5
+      },
+      "dark": {
+        "wcag": 4.45,
+        "apca": -33.6
+      }
+    },
+    {
+      "fg": "color.control",
+      "bg": "color.field",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Control border against its fill",
+      "light": {
+        "wcag": 5.49,
+        "apca": 74
+      },
+      "dark": {
+        "wcag": 4.17,
+        "apca": -32.9
+      }
+    },
+    {
+      "fg": "color.ink",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Focus ring (WCAG 2.4.13)",
+      "light": {
+        "wcag": 16.03,
+        "apca": 95.6
+      },
+      "dark": {
+        "wcag": 14.08,
+        "apca": -90.5
+      }
+    },
+    {
+      "fg": "chart.neutral",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Baseline bars",
+      "light": {
+        "wcag": 3.42,
+        "apca": 57.4
+      },
+      "dark": {
+        "wcag": 4.45,
+        "apca": -33.6
+      }
+    },
+    {
+      "fg": "chart.up",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Up bars",
+      "light": {
+        "wcag": 9.92,
+        "apca": 86.4
+      },
+      "dark": {
+        "wcag": 10.5,
+        "apca": -72.3
+      }
+    },
+    {
+      "fg": "chart.down",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Down bars",
+      "light": {
+        "wcag": 5.65,
+        "apca": 71.6
+      },
+      "dark": {
+        "wcag": 6.22,
+        "apca": -46.8
+      }
+    },
+    {
+      "fg": "chart.watch",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Limit lines",
+      "light": {
+        "wcag": 10.36,
+        "apca": 87.6
+      },
+      "dark": {
+        "wcag": 8.67,
+        "apca": -61.9
+      }
+    },
+    {
+      "fg": "categorical 1 (ink)",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Series mark",
+      "light": {
+        "wcag": 16.03,
+        "apca": 95.6
+      },
+      "dark": {
+        "wcag": 14.08,
+        "apca": -90.5
+      }
+    },
+    {
+      "fg": "categorical 2 (green)",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Series mark",
+      "light": {
+        "wcag": 9.92,
+        "apca": 86.4
+      },
+      "dark": {
+        "wcag": 10.5,
+        "apca": -72.3
+      }
+    },
+    {
+      "fg": "categorical 3 (red)",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Series mark",
+      "light": {
+        "wcag": 5.64,
+        "apca": 71.7
+      },
+      "dark": {
+        "wcag": 5.77,
+        "apca": -43.7
+      }
+    },
+    {
+      "fg": "categorical 4 (blue)",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Series mark",
+      "light": {
+        "wcag": 4.78,
+        "apca": 67.8
+      },
+      "dark": {
+        "wcag": 6.6,
+        "apca": -49
+      }
+    },
+    {
+      "fg": "categorical 5 (ochre)",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Series mark",
+      "light": {
+        "wcag": 3.21,
+        "apca": 54.9
+      },
+      "dark": {
+        "wcag": 9.31,
+        "apca": -65.6
+      }
+    },
+    {
+      "fg": "categorical 6 (plum)",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Series mark",
+      "light": {
+        "wcag": 7.72,
+        "apca": 80.6
+      },
+      "dark": {
+        "wcag": 4.61,
+        "apca": -34.9
+      }
+    },
+    {
+      "fg": "categorical 7 (mauve)",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Series mark",
+      "light": {
+        "wcag": 4.88,
+        "apca": 68.6
+      },
+      "dark": {
+        "wcag": 3.48,
+        "apca": -25.8
+      }
+    },
+    {
+      "fg": "categorical 8 (olive)",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Series mark",
+      "light": {
+        "wcag": 3.17,
+        "apca": 54.6
+      },
+      "dark": {
+        "wcag": 3.76,
+        "apca": -28.2
+      }
+    },
+    {
+      "fg": "sequential, darkest step",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Highest value",
+      "light": {
+        "wcag": 12.82,
+        "apca": 91.8
+      },
+      "dark": {
+        "wcag": 14.28,
+        "apca": -91.5
+      }
+    },
+    {
+      "fg": "diverging, worse end",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Worst value",
+      "light": {
+        "wcag": 10.83,
+        "apca": 87.4
+      },
+      "dark": {
+        "wcag": 11.14,
+        "apca": -75.7
+      }
+    },
+    {
+      "fg": "diverging, better end",
+      "bg": "color.paper",
+      "min": 3,
+      "apcaTarget": 30,
+      "use": "Best value",
+      "light": {
+        "wcag": 9.92,
+        "apca": 86.4
+      },
+      "dark": {
+        "wcag": 11.7,
+        "apca": -78.6
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "diverging step 1",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 10.83,
+        "apca": -90
+      },
+      "dark": {
+        "wcag": 11.14,
+        "apca": 76
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "diverging step 2",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 5.65,
+        "apca": -75.7
+      },
+      "dark": {
+        "wcag": 6.19,
+        "apca": 48.5
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "diverging step 3",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 6.5,
+        "apca": 49.1
+      },
+      "dark": {
+        "wcag": 5.21,
+        "apca": -70.1
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "diverging step 4",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 11.7,
+        "apca": 76.7
+      },
+      "dark": {
+        "wcag": 9.99,
+        "apca": -84.4
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "diverging step 5",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 14.76,
+        "apca": 90.3
+      },
+      "dark": {
+        "wcag": 12.12,
+        "apca": -88.7
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "diverging step 6",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 12.28,
+        "apca": 79.4
+      },
+      "dark": {
+        "wcag": 9.15,
+        "apca": -83.5
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "diverging step 7",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 7.13,
+        "apca": 52.6
+      },
+      "dark": {
+        "wcag": 4.59,
+        "apca": -67.5
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "diverging step 8",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 4.98,
+        "apca": -73.2
+      },
+      "dark": {
+        "wcag": 6.79,
+        "apca": 52
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "diverging step 9",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 9.92,
+        "apca": -89.2
+      },
+      "dark": {
+        "wcag": 11.7,
+        "apca": 78.7
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "sequential step 1",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 14.98,
+        "apca": 91.3
+      },
+      "dark": {
+        "wcag": 11.82,
+        "apca": -88.1
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "sequential step 2",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 12.28,
+        "apca": 79.4
+      },
+      "dark": {
+        "wcag": 9.15,
+        "apca": -83.5
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "sequential step 3",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 9.5,
+        "apca": 65.8
+      },
+      "dark": {
+        "wcag": 6.45,
+        "apca": -76
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "sequential step 4",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 7.13,
+        "apca": 52.6
+      },
+      "dark": {
+        "wcag": 4.59,
+        "apca": -67.5
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "sequential step 5",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 4.89,
+        "apca": 38.1
+      },
+      "dark": {
+        "wcag": 4.66,
+        "apca": 37.4
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "sequential step 6",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 4.98,
+        "apca": -73.2
+      },
+      "dark": {
+        "wcag": 6.79,
+        "apca": 52
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "sequential step 7",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 6.99,
+        "apca": -81.7
+      },
+      "dark": {
+        "wcag": 9.05,
+        "apca": 65.1
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "sequential step 8",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 9.92,
+        "apca": -89.2
+      },
+      "dark": {
+        "wcag": 11.7,
+        "apca": 78.7
+      }
+    },
+    {
+      "fg": "cell text (ink or paper)",
+      "bg": "sequential step 9",
+      "min": 4.5,
+      "apcaTarget": 60,
+      "use": "Heatmap value",
+      "light": {
+        "wcag": 12.82,
+        "apca": -93.7
+      },
+      "dark": {
+        "wcag": 14.28,
+        "apca": 90.6
+      }
+    }
+  ],
+  "cvd": [
+    {
+      "mode": "light",
+      "categorical": [
+        {
+          "first": 4,
+          "min": {
+            "normal": {
+              "d": 16.4,
+              "pair": [
+                "ink",
+                "green"
+              ]
+            },
+            "protanopia": {
+              "d": 7.4,
+              "pair": [
+                "green",
+                "red"
+              ]
+            },
+            "deuteranopia": {
+              "d": 14.9,
+              "pair": [
+                "ink",
+                "green"
+              ]
+            },
+            "tritanopia": {
+              "d": 16.5,
+              "pair": [
+                "ink",
+                "green"
+              ]
+            }
+          }
+        },
+        {
+          "first": 6,
+          "min": {
+            "normal": {
+              "d": 16.1,
+              "pair": [
+                "red",
+                "plum"
+              ]
+            },
+            "protanopia": {
+              "d": 7.4,
+              "pair": [
+                "green",
+                "red"
+              ]
+            },
+            "deuteranopia": {
+              "d": 10.1,
+              "pair": [
+                "green",
+                "plum"
+              ]
+            },
+            "tritanopia": {
+              "d": 15.2,
+              "pair": [
+                "red",
+                "plum"
+              ]
+            }
+          }
+        },
+        {
+          "first": 8,
+          "min": {
+            "normal": {
+              "d": 8.3,
+              "pair": [
+                "ochre",
+                "olive"
+              ]
+            },
+            "protanopia": {
+              "d": 7.4,
+              "pair": [
+                "green",
+                "red"
+              ]
+            },
+            "deuteranopia": {
+              "d": 8,
+              "pair": [
+                "ochre",
+                "olive"
+              ]
+            },
+            "tritanopia": {
+              "d": 8,
+              "pair": [
+                "ochre",
+                "olive"
+              ]
+            }
+          }
+        }
+      ],
+      "upDown": {
+        "normal": 27.2,
+        "protanopia": 7.2,
+        "deuteranopia": 19.4,
+        "tritanopia": 31
+      },
+      "divergingMirror": {
+        "normal": 12.1,
+        "protanopia": 5,
+        "deuteranopia": 3.4,
+        "tritanopia": 14
+      },
+      "divergingAdjacent": {
+        "normal": 8.5,
+        "protanopia": 4.7,
+        "deuteranopia": 6.7,
+        "tritanopia": 9.4
+      },
+      "sequentialAdjacent": {
+        "normal": 6.6,
+        "protanopia": 6.2,
+        "deuteranopia": 6.5,
+        "tritanopia": 6.6
+      }
+    },
+    {
+      "mode": "dark",
+      "categorical": [
+        {
+          "first": 4,
+          "min": {
+            "normal": {
+              "d": 14.2,
+              "pair": [
+                "ink",
+                "green"
+              ]
+            },
+            "protanopia": {
+              "d": 7.4,
+              "pair": [
+                "ink",
+                "green"
+              ]
+            },
+            "deuteranopia": {
+              "d": 10.8,
+              "pair": [
+                "ink",
+                "green"
+              ]
+            },
+            "tritanopia": {
+              "d": 12.9,
+              "pair": [
+                "green",
+                "blue"
+              ]
+            }
+          }
+        },
+        {
+          "first": 6,
+          "min": {
+            "normal": {
+              "d": 14,
+              "pair": [
+                "blue",
+                "plum"
+              ]
+            },
+            "protanopia": {
+              "d": 7.4,
+              "pair": [
+                "ink",
+                "green"
+              ]
+            },
+            "deuteranopia": {
+              "d": 7.9,
+              "pair": [
+                "blue",
+                "plum"
+              ]
+            },
+            "tritanopia": {
+              "d": 12.9,
+              "pair": [
+                "green",
+                "blue"
+              ]
+            }
+          }
+        },
+        {
+          "first": 8,
+          "min": {
+            "normal": {
+              "d": 9.6,
+              "pair": [
+                "plum",
+                "mauve"
+              ]
+            },
+            "protanopia": {
+              "d": 7.4,
+              "pair": [
+                "ink",
+                "green"
+              ]
+            },
+            "deuteranopia": {
+              "d": 7.9,
+              "pair": [
+                "blue",
+                "plum"
+              ]
+            },
+            "tritanopia": {
+              "d": 7.7,
+              "pair": [
+                "plum",
+                "mauve"
+              ]
+            }
+          }
+        }
+      ],
+      "upDown": {
+        "normal": 22.4,
+        "protanopia": 16.9,
+        "deuteranopia": 8.7,
+        "tritanopia": 27.2
+      },
+      "divergingMirror": {
+        "normal": 12.1,
+        "protanopia": 5,
+        "deuteranopia": 3.4,
+        "tritanopia": 14
+      },
+      "divergingAdjacent": {
+        "normal": 9.9,
+        "protanopia": 4.2,
+        "deuteranopia": 6.8,
+        "tritanopia": 10.1
+      },
+      "sequentialAdjacent": {
+        "normal": 6.6,
+        "protanopia": 6.2,
+        "deuteranopia": 6.5,
+        "tritanopia": 6.6
+      }
+    }
+  ],
+  "cvdGate": {
+    "minDeltaE": 2,
+    "gated": [
+      "protanopia",
+      "deuteranopia"
+    ],
+    "pairs": [
+      {
+        "mode": "light",
+        "name": "up vs down (text)",
+        "a": "#00432D",
+        "b": "#AD3118",
+        "d": {
+          "normal": 27.2,
+          "protanopia": 7.2,
+          "deuteranopia": 19.4,
+          "tritanopia": 31
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "up vs watch (text)",
+        "a": "#00432D",
+        "b": "#4C3200",
+        "d": {
+          "normal": 9.8,
+          "protanopia": 5.4,
+          "deuteranopia": 5.4,
+          "tritanopia": 12
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "down vs watch (text)",
+        "a": "#AD3118",
+        "b": "#4C3200",
+        "d": {
+          "normal": 20.3,
+          "protanopia": 9.4,
+          "deuteranopia": 17.1,
+          "tritanopia": 22
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "chart up vs chart down",
+        "a": "#00432D",
+        "b": "#AD3118",
+        "d": {
+          "normal": 27.2,
+          "protanopia": 7.2,
+          "deuteranopia": 19.4,
+          "tritanopia": 31
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "baseline (neutral) vs subject (ink)",
+        "a": "#848076",
+        "b": "#141414",
+        "d": {
+          "normal": 40.9,
+          "protanopia": 40.8,
+          "deuteranopia": 41.2,
+          "tritanopia": 41
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "categorical ink vs green",
+        "a": "#141414",
+        "b": "#00432D",
+        "d": {
+          "normal": 16.4,
+          "protanopia": 17.1,
+          "deuteranopia": 14.9,
+          "tritanopia": 16.5
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "categorical ink vs red",
+        "a": "#141414",
+        "b": "#A93620",
+        "d": {
+          "normal": 34.5,
+          "protanopia": 24.1,
+          "deuteranopia": 33.4,
+          "tritanopia": 36.9
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "categorical ink vs blue",
+        "a": "#141414",
+        "b": "#386CA0",
+        "d": {
+          "normal": 34.3,
+          "protanopia": 36.1,
+          "deuteranopia": 33.3,
+          "tritanopia": 34.2
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "categorical green vs red",
+        "a": "#00432D",
+        "b": "#A93620",
+        "d": {
+          "normal": 26.4,
+          "protanopia": 7.4,
+          "deuteranopia": 18.9,
+          "tritanopia": 30.1
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "categorical green vs blue",
+        "a": "#00432D",
+        "b": "#386CA0",
+        "d": {
+          "normal": 21.7,
+          "protanopia": 21.5,
+          "deuteranopia": 20.5,
+          "tritanopia": 18.1
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "categorical red vs blue",
+        "a": "#A93620",
+        "b": "#386CA0",
+        "d": {
+          "normal": 24.3,
+          "protanopia": 19.6,
+          "deuteranopia": 19.3,
+          "tritanopia": 28.5
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "diverging step 1 vs 9 (same lightness, opposite side)",
+        "a": "#6A1000",
+        "b": "#00432D",
+        "d": {
+          "normal": 18.2,
+          "protanopia": 9.2,
+          "deuteranopia": 5.7,
+          "tritanopia": 20.3
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "diverging step 2 vs 8 (same lightness, opposite side)",
+        "a": "#AD3118",
+        "b": "#277354",
+        "d": {
+          "normal": 23.2,
+          "protanopia": 11.8,
+          "deuteranopia": 8.2,
+          "tritanopia": 29
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "diverging step 3 vs 7 (same lightness, opposite side)",
+        "a": "#EA7962",
+        "b": "#6FAE90",
+        "d": {
+          "normal": 20.5,
+          "protanopia": 9.1,
+          "deuteranopia": 7.3,
+          "tritanopia": 26.5
+        },
+        "pass": true
+      },
+      {
+        "mode": "light",
+        "name": "diverging step 4 vs 6 (same lightness, opposite side)",
+        "a": "#FFBFB1",
+        "b": "#B0DDC6",
+        "d": {
+          "normal": 12.1,
+          "protanopia": 5,
+          "deuteranopia": 3.4,
+          "tritanopia": 14
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "up vs down (text)",
+        "a": "#86D9B0",
+        "b": "#F18A77",
+        "d": {
+          "normal": 22.4,
+          "protanopia": 16.9,
+          "deuteranopia": 8.7,
+          "tritanopia": 27.2
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "up vs watch (text)",
+        "a": "#86D9B0",
+        "b": "#D8B073",
+        "d": {
+          "normal": 13.5,
+          "protanopia": 10.3,
+          "deuteranopia": 7.4,
+          "tritanopia": 17.9
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "down vs watch (text)",
+        "a": "#F18A77",
+        "b": "#D8B073",
+        "d": {
+          "normal": 10.1,
+          "protanopia": 8.5,
+          "deuteranopia": 3.8,
+          "tritanopia": 9.6
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "chart up vs chart down",
+        "a": "#86D9B0",
+        "b": "#E47D6C",
+        "d": {
+          "normal": 24.3,
+          "protanopia": 20.8,
+          "deuteranopia": 12.1,
+          "tritanopia": 29
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "baseline (neutral) vs subject (ink)",
+        "a": "#848076",
+        "b": "#ECE6D6",
+        "d": {
+          "normal": 32.5,
+          "protanopia": 32.2,
+          "deuteranopia": 32.5,
+          "tritanopia": 32.5
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "categorical ink vs green",
+        "a": "#ECE6D6",
+        "b": "#86D9B0",
+        "d": {
+          "normal": 14.2,
+          "protanopia": 7.4,
+          "deuteranopia": 10.8,
+          "tritanopia": 15.4
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "categorical ink vs red",
+        "a": "#ECE6D6",
+        "b": "#DD7766",
+        "d": {
+          "normal": 27.3,
+          "protanopia": 30.1,
+          "deuteranopia": 24.3,
+          "tritanopia": 28.5
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "categorical ink vs blue",
+        "a": "#ECE6D6",
+        "b": "#6DA4D3",
+        "d": {
+          "normal": 25.2,
+          "protanopia": 22,
+          "deuteranopia": 26.2,
+          "tritanopia": 25.9
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "categorical green vs red",
+        "a": "#86D9B0",
+        "b": "#DD7766",
+        "d": {
+          "normal": 25.3,
+          "protanopia": 22.8,
+          "deuteranopia": 13.9,
+          "tritanopia": 29.8
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "categorical green vs blue",
+        "a": "#86D9B0",
+        "b": "#6DA4D3",
+        "d": {
+          "normal": 17.7,
+          "protanopia": 17.3,
+          "deuteranopia": 17.1,
+          "tritanopia": 12.9
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "categorical red vs blue",
+        "a": "#DD7766",
+        "b": "#6DA4D3",
+        "d": {
+          "normal": 21.2,
+          "protanopia": 16,
+          "deuteranopia": 16.3,
+          "tritanopia": 26.9
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "diverging step 1 vs 9 (same lightness, opposite side)",
+        "a": "#FFBFB1",
+        "b": "#B0DDC6",
+        "d": {
+          "normal": 12.1,
+          "protanopia": 5,
+          "deuteranopia": 3.4,
+          "tritanopia": 14
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "diverging step 2 vs 8 (same lightness, opposite side)",
+        "a": "#EA7962",
+        "b": "#6FAE90",
+        "d": {
+          "normal": 20.5,
+          "protanopia": 9.1,
+          "deuteranopia": 7.3,
+          "tritanopia": 26.5
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "diverging step 3 vs 7 (same lightness, opposite side)",
+        "a": "#AD3118",
+        "b": "#277354",
+        "d": {
+          "normal": 23.2,
+          "protanopia": 11.8,
+          "deuteranopia": 8.2,
+          "tritanopia": 29
+        },
+        "pass": true
+      },
+      {
+        "mode": "dark",
+        "name": "diverging step 4 vs 6 (same lightness, opposite side)",
+        "a": "#6A1000",
+        "b": "#00432D",
+        "d": {
+          "normal": 18.2,
+          "protanopia": 9.2,
+          "deuteranopia": 5.7,
+          "tritanopia": 20.3
+        },
+        "pass": true
+      }
+    ]
+  }
+}

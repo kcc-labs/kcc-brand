@@ -1,0 +1,293 @@
+{
+ "question": "Evidence-based design rules for a professional design system (institutional finance documents, PDFs and data-dense web apps): which rules are supported by empirical research, measurement standards or mathematics, not by convention or popular opinion. Cover: (1) typography \u2014 empirical readability findings on line length (characters per line), font size, line height/leading, serif vs sans for screen and print, tabular/lining numerals, modular scales (golden ratio vs others) and whether any study supports them; (2) colour \u2014 perceptually uniform colour spaces (OKLCH/CIELAB), contrast metrics (WCAG 2.x vs APCA) and their empirical validation, colour-vision-deficiency simulation (Brettel, Vi\u00e9not, Machado) and safe palettes for green/red diverging scales; (3) data visualisation \u2014 graphical perception research (Cleveland & McGill, Heer & Bostock replication), aspect ratio banking to 45 degrees and later corrections (Heer & Agrawala, Talbot), zero baselines, direct labelling vs legends; (4) layout stability and text 'jumps' \u2014 Cumulative Layout Shift definition and thresholds, web-font loading (FOUT/FOIT, font-display, size-adjust/ascent-override metric overrides), reserving space for async content, scroll anchoring; (5) UI interaction laws with measured parameters \u2014 Fitts's law, Hick-Hyman law, response-time thresholds (0.1 s / 1 s / 10 s), target sizes (WCAG 2.5.8, platform guidelines) and their evidence. For each rule give the source (peer-reviewed paper, W3C/ISO standard, or measured dataset), the effect size or exact threshold where available, and flag rules that are only convention. Output should be usable to edit a design system's DESIGN.md and an AGENTS.md checklist for coding agents.",
+ "summary": "Twenty-two claims survived verification, and the evidence behind them is uneven. The strongest are in data visualisation. Position encodings are more accurate than length, and length more than angle or area (Cleveland & McGill 1984, replicated by Heer & Bostock 2010 and Talbot et al. 2014). Banking to 45 degrees is proven only for two line segments, so it is a heuristic: Talbot 2012 measured that slope-ratio error is generally not lowest at 45 degrees and that flatter charts often do better. In typography, measured performance often disagrees with popular rules. On screen, 100-character lines were read faster than 25-character lines with no loss of comprehension, readers' preference for about 55 characters did not match their speed, sizes under about 14pt on screen hurt readability and comprehension, and no single line-height value has strong support. Colour-vision-deficiency (CVD) simulation has a solid basis that a CI check can use: one 3x3 matrix per pixel (Machado 2009). Layout stability has an exact formula and thresholds (Google's Cumulative Layout Shift, CLS), but those thresholds are a measurement standard, not a perceptual law. Several requested areas came out of verification with no surviving claims: OKLCH/CIELAB, WCAG vs APCA validation, zero baselines, direct labels, font-display/size-adjust, Fitts/Hick-Hyman, response-time limits, target sizes, tabular numerals and modular scales. Treat rules on those topics as unverified in this run, not as confirmed or refuted.",
+ "findings": [
+  {
+   "claim": "Line length: on screen, long lines (100 cpl) were read faster than very short lines (25 cpl). Readers rated 55 cpl easiest and 100 cpl hardest, and these ratings did not correlate with performance. So a rule like 'keep lines at 45-75 cpl for speed' rests on preference and convention, not on measured speed. Suggested DESIGN.md wording: avoid very short columns (25 cpl or less) for running text. A 55-75 cpl range is fine as a comfort or preference default, but label it as preference-based.",
+   "confidence": "medium",
+   "sources": [
+    "https://journals.uc.edu/index.php/vl/article/view/5671"
+   ],
+   "evidence": "Dyson & Kipping 1998, Visible Language 32(2), abstract quoted directly. Votes were 3-0 on speed and 3-0 on the mismatch between preference and performance. Verifiers named Dyson & Haselgrove 2001 and Shaikh 2005 as pointing the same way (95-100 cpl fastest), but did not look them up in this run. A separate claim that comprehension stayed the same across line lengths was refuted 1-2, so do not cite it. The samples were small (about 18-20 people), the displays were CRT-era, and part of the speed gain may come from less scrolling.",
+   "vote": "3-0, 3-0 (merged claims 0 and 1)"
+  },
+  {
+   "claim": "Font size on screen: in an eye-tracking study (N=104, Arial, 17-inch screen at 1024x768), font size had a large effect on mean fixation duration (F(5,445)=66.8, p<.001, eta^2=0.159). Fixations got shorter from 10pt (about 0.255 s) down to a low at 22pt (about 0.199 s); 22pt was still significantly better than 18pt. Comprehension was significantly worse at 10 and 12pt than at 18pt (p<.01), and worse at 12pt than at 26pt (p<.05). The objective measures did not improve beyond 22pt, and subjective readability went down. Suggested rule: do not use 10-12pt-equivalent body text for reading-heavy content. The study supports a floor, not one optimal size.",
+   "confidence": "medium",
+   "sources": [
+    "https://researchr.org/publication/RelloPM16"
+   ],
+   "evidence": "Rello, Pielot & Marcos, 'Make It Big!', CHI 2016. The statistics were confirmed from the authors' CHI slides. The exact per-size means and the viewing distance were not independently confirmed. The 'pt' values are on-screen sizes on one lab display (the authors map 18pt to about 24px), so they do not transfer directly to CSS px or to print. Fixation duration is a stand-in measure for readability. This is a single study.",
+   "vote": "3-0, 3-0 (merged claims 2 and 3)"
+  },
+  {
+   "claim": "Line height: across spacings of 0.8, 1.0, 1.4 and 1.8 (multiples of the browser default, about 1.2em, so 1.0 is about CSS line-height 1.2), spacing had no effect on fixation duration (F(3,89)=0.064, p=.978). 0.8 lowered objective comprehension. Subjective comprehension had a small effect (eta^2=.018), with 1.0 rated above 1.8. Suggested rule: avoid line-height tighter than about 1.0x the default (CSS about 1.2 or below) for running text. Any one exact value, such as 1.5, is convention.",
+   "confidence": "medium",
+   "sources": [
+    "https://researchr.org/publication/RelloPM16"
+   ],
+   "evidence": "Same CHI 2016 study. The authors' slides confirm the statistics. There was a small font-size x spacing interaction (eta^2=.034), mostly above 18pt. Rello 2013 (dyslexia study) also found no spacing effect, according to the verifier. The study had a single Spanish-language sample, and spacing was a between-subjects factor.",
+   "vote": "3-0"
+  },
+  {
+   "claim": "CVD simulation: the Machado, Oliveira & Fernandes 2009 model handles anomalous trichromacy and dichromacy in one model. It is based on stage theory: an LMS cone stage followed by an opponent-colour stage. Severity is a cone peak shift in nm; a shift of about 20nm is severe and close to dichromacy. Each simulation is one 3x3 matrix per RGB pixel, so it is cheap to run in CI. The matrices are published at severity steps of 0.1. The model covers about 99.38% of CVD cases (the figure is cited from epidemiology references). It does not cover tritanopia or monochromacy, and its tritanomaly handling is weak. Suggested AGENTS.md check: run each palette through protan and deutan matrices at severity 1.0 and confirm that red/green diverging pairs stay distinguishable after simulation. Use linearised sRGB, which is the common practice although the paper only says 'RGB'.",
+   "confidence": "medium",
+   "sources": [
+    "https://dcmpx.remotevs.com/br/ufrgs/inf/www/PL/~oliveira/pubs_files/CVD_Simulation/Machado_Oliveira_Fernandes_CVD_Vis2009_final.pdf"
+   ],
+   "evidence": "Primary peer-reviewed paper (IEEE TVCG 15(6) 2009), with the text quoted. Validation was qualitative. Verifiers say it agrees with Brettel 1997 and Vi\u00e9not 1999 for dichromats and is used by Chromium DevTools and colorspacious; this run did not check those papers or tools. It is rated medium only because it is a single source; the claims themselves were unanimous.",
+   "vote": "3-0, 3-0 (merged claims 5 and 6)"
+  },
+  {
+   "claim": "Graphical perception ranking: position encodings are judged more accurately than length, and length more accurately than angle and circular area. Area is worse than angle. Angle was NOT shown to be worse than length, so that part of the theoretical ranking is unsupported. Cleveland & McGill (51 participants) report that position judgments are about twice as accurate as angle judgments, measured by MLAE, a log2 error scale, so this does not mean half the raw error. Suggested rule: to compare values against each other, use position on a common aligned scale (dots, aligned bars), not pies or bubbles. Pies may still be acceptable for part-to-whole judgments, according to verifier notes that were not checked in this run.",
+   "confidence": "high",
+   "sources": [
+    "https://homes.cs.washington.edu/~jheer/files/2010-MTurk-CHI.pdf",
+    "https://vcg.seas.harvard.edu/publications/20181031-evaluating-graphical-perception-with-cnns/paper",
+    "https://datavis.cs.columbia.edu/files/papers/talbot - 4 experiments.pdf"
+   ],
+   "evidence": "Heer & Bostock CHI 2010 replicated Cleveland & McGill's ranking with log2(|error|+1/8). Haehn et al. 2018 quotes C&M 1984; cite C&M 1984 as the primary source for the 'twice' figure. Talbot 2014 generally confirms the ranking. Significance was judged from non-overlapping bootstrap CIs. Participants were MTurk workers on uncontrolled displays.",
+   "vote": "3-0, 3-0, 3-0 (merged claims 7, 8 and 19)"
+  },
+  {
+   "claim": "Bar chart layout: aligned bars are more accurate than stacked bars. Comparing bars that are far apart raises error by about 0.81 percentage points [0.59, 1.03], and the effect is strongest when the reference bar is short. In stacked bars, distractor segments raise error. Adjacent segments in the same stack are worse than non-adjacent ones, probably because readers fall back on a part-to-whole judgment (for example 33% instead of 50%). The authors suggest sorting, reference lines, windowing, or a gap between stacked segments as fixes, but did not test them. Suggested rules: put bars that will be compared next to each other, sort by value, and prefer grouped or aligned bars over stacked bars when segments will be compared. A gap between stacked segments is a hypothesis backed by evidence, not a measured threshold.",
+   "confidence": "medium",
+   "sources": [
+    "https://datavis.cs.columbia.edu/files/papers/talbot - 4 experiments.pdf"
+   ],
+   "evidence": "Talbot, Setlur & Anand, IEEE TVCG 20(12) 2014, with about 50 MTurk participants per experiment. Absolute effects are 1 percentage point or less. Only 3 reference heights and 1 separation distance were tested. One of the merged claims had a 2-1 vote.",
+   "vote": "2-1, 3-0, 3-0 (merged claims 10, 11 and 12)"
+  },
+  {
+   "claim": "Chart size and gridlines: charts 40px tall gave significantly more error (p<0.001). Above 80px there was no significant gain on a 0-100 scale, which is about where pixel resolution matches data resolution. Gridlines improved accuracy, and the authors suggest spacing them at least 8px apart. Suggested rule: make value-reading charts at least about 80px tall for 0-100-scale precision, and keep gridlines at least 8px apart.",
+   "confidence": "medium",
+   "sources": [
+    "https://homes.cs.washington.edu/~jheer/files/2010-MTurk-CHI.pdf"
+   ],
+   "evidence": "Heer & Bostock 2010, Exp. 3, ANOVA on 2,880 responses: height F(3,2802)=14.16, gridline spacing F(3,2802)=31.98. The 8px figure is the authors' inference from one bad condition (about 4px spacing), not a tested threshold. The pixels are 2010 pixels at about 1x density. The 80px plateau applies only to the 0-100 range.",
+   "vote": "3-0"
+  },
+  {
+   "claim": "Aspect ratio and banking: banking to 45 degrees is mathematically optimal only for two line segments, and only for orientation resolution, which is a geometric stand-in for perception. For many segments, the median-absolute-slope rule and similar methods are heuristics. The arc-length method (minimise curve arc length at constant plot area) has elegant mathematical properties, but its authors say it has no perceptual validation. Talbot 2012 measured that slope-ratio errors are generally not lowest at 45 degrees. Cleveland's model fitted only a narrow sampled region and predicts a false minimum at 45 degrees. For small true slope ratios, errors are much larger for tall, narrow plots, and the minimum moves below 30 degrees. Plots chosen by the empirical model are consistently flatter than those from MS, AWO, GOR, LOR or arc length. Suggested rule: label '45 degrees' as a heuristic. If unsure, choose a wider and shorter plot over a taller and narrower one. There is no single optimal formula, and the right ratio depends on the task.",
+   "confidence": "high",
+   "sources": [
+    "https://homes.cs.washington.edu/~jheer/files/2006-Banking-InfoVis.pdf",
+    "https://tableau.com/sites/default/files/2023-01/infovis2011-talbot-arclengthbanking.pdf",
+    "https://tableau.com/sites/default/files/2023-01/infovis2012-talbot-modelratiocomparisons.pdf"
+   ],
+   "evidence": "Three peer-reviewed primary papers (Heer & Agrawala TVCG 2006; Talbot, Gerth & Hanrahan InfoVis 2011 and 2012), with the text quoted. A claim that Cleveland's experiments are a sound empirical basis for 45 degrees was refuted 0-3. For slope ratios near 1, the minimum stays near 45 degrees.",
+   "vote": "3-0 x6 (merged claims 13-18)"
+  },
+  {
+   "claim": "Layout stability (text 'jumps'): one layout shift score = impact fraction x distance fraction. The impact fraction is the visible area of unstable elements across both frames divided by the viewport area. The distance fraction is the largest move divided by the viewport's largest dimension; for example, 0.75 x 0.25 = 0.1875. Page CLS is the largest session window: shifts less than 1s apart, capped at 5s. Shifts within 500ms of user input are excluded. A good score is 0.1 or less and a poor score is above 0.25, measured at the 75th percentile of page loads, separately for mobile and desktop. Suggested AGENTS.md check: measure CLS with the Layout Instability API or Lighthouse on every page template, require 0.1 or less, and set explicit width/height or aspect-ratio for media and async slots.",
+   "confidence": "high",
+   "sources": [
+    "https://web.dev/articles/cls"
+   ],
+   "evidence": "Google's primary definition, fetched 2026-11-17. The verifier says it matches the WICG Layout Instability spec; the spec was not fetched in this run. The 0.1/0.25 cut-offs are thresholds Google chose from achievability data and limited UX evidence. They are not a peer-reviewed perceptual threshold, so label them 'measurement standard'.",
+   "vote": "3-0, 3-0 (merged claims 20 and 21)"
+  }
+ ],
+ "caveats": "Coverage gaps: no claims survived verification for OKLCH/CIELAB uniformity, WCAG 2.x vs APCA empirical validation, Brettel/Vi\u00e9not as separate sources, safe green/red diverging palettes, serif vs sans, tabular/lining numerals, modular or golden-ratio scales, zero baselines, direct labelling vs legends, FOUT/FOIT, font-display, size-adjust/ascent-override, scroll anchoring, Fitts's law, Hick-Hyman, the 0.1/1/10 s response-time limits, or WCAG 2.5.8 target sizes. Any DESIGN.md rule on these topics should stay marked 'unverified in this research run' until it is sourced separately. Time and quality: the typography evidence comes from single, older or small studies: 1998 CRT screens with about 20 participants, and 2016 low-resolution screens with N=104 Spanish readers. Sizes in pt/px from these studies do not transfer directly to modern high-DPI CSS px or to print PDFs. Print-specific evidence was not covered at all. The visualisation studies mostly use MTurk with uncontrolled displays, and the absolute effects are often small (1 percentage point or less). Several proposed fixes (8px gridlines, gaps in stacked bars, sorting) are the authors' suggestions, not tested interventions. Three claims were refuted and should not be cited: 'comprehension did not change with line length', Cleveland's 45-degree experiments as a sound empirical basis, and the framed-rectangle replication in Haehn 2018.",
+ "openQuestions": [
+  "Is APCA (or WCAG 2.x contrast ratio) validated against measured reading performance for small, dense UI text? Which contrast metric should the design system enforce in CI?",
+  "Do the font-size and line-length findings hold on modern high-DPI displays, in print-style PDF layouts, and for tabular financial data (scanning rather than reading prose)?",
+  "Which red/green diverging palettes keep a minimum perceptual distance (for example deltaE in OKLab) after Machado simulation at severity 1.0? What minimum distance threshold is supported by evidence?",
+  "Do font metric overrides (size-adjust, ascent-override) eliminate measurable CLS from web-font swaps in practice, and how large is the effect?"
+ ],
+ "refuted": [
+  {
+   "claim": "Comprehension did not change significantly across the line lengths tested (25 to 100 cpl), so line length affected speed only, not understanding.",
+   "vote": "1-2",
+   "source": "https://journals.uc.edu/index.php/vl/article/view/5671"
+  },
+  {
+   "claim": "Cleveland's experiments found that people judge the ratio of two adjacent line slopes most accurately when the difference in orientation between the two lines is largest. For two segments, this difference is largest when their mean absolute orientation is 45 degrees. This is the mathematical and empirical basis for banking to 45 degrees.",
+   "vote": "0-3",
+   "source": "https://homes.cs.washington.edu/~jheer/files/2006-Banking-InfoVis.pdf"
+  },
+  {
+   "claim": "In a new crowdsourced study (n=25, Amazon Mechanical Turk), people estimated bar length with less error when a frame showing the maximum length was added (MLAE 3.336, SD 0.828) than without it (MLAE 3.928, SD 0.42). The difference was significant (F1,48 = 9.765, p < 0.01). This replicates Cleveland and McGill's bars-and-framed-rectangles result and supports framing or reference lines for length judgments.",
+   "vote": "1-2",
+   "source": "https://vcg.seas.harvard.edu/publications/20181031-evaluating-graphical-perception-with-cnns/paper"
+  }
+ ],
+ "unverified": [],
+ "sources": [
+  {
+   "url": "https://journals.uc.edu/index.php/vl/article/view/5671",
+   "quality": "primary",
+   "angle": "Typography readability evidence",
+   "claimCount": 5
+  },
+  {
+   "url": "https://www.wikipedia.com/wiki/Line_length",
+   "quality": "secondary",
+   "angle": "Typography readability evidence",
+   "claimCount": 5
+  },
+  {
+   "url": "https://researchr.org/publication/RelloPM16",
+   "quality": "primary",
+   "angle": "Typography readability evidence",
+   "claimCount": 5
+  },
+  {
+   "url": "https://link.springer.com/chapter/10.1007/978-3-030-90984-0_15",
+   "quality": "secondary",
+   "angle": "Typography readability evidence",
+   "claimCount": 5
+  },
+  {
+   "url": "https://dcmpx.remotevs.com/br/ufrgs/inf/www/PL/~oliveira/pubs_files/CVD_Simulation/Machado_Oliveira_Fernandes_CVD_Vis2009_final.pdf",
+   "quality": "primary",
+   "angle": "Colour science and contrast validation",
+   "claimCount": 5
+  },
+  {
+   "url": "https://ivarfa.folk.ntnu.no/publications/journal/Simon_16_jist.pdf",
+   "quality": "unreliable",
+   "angle": "Colour science and contrast validation",
+   "claimCount": 0
+  },
+  {
+   "url": "https://dcmpx.remotevs.com/io/github/bottosson/SL/posts/oklab",
+   "quality": "blog",
+   "angle": "Colour science and contrast validation",
+   "claimCount": 5
+  },
+  {
+   "url": "https://homes.cs.washington.edu/~jheer/files/2010-MTurk-CHI.pdf",
+   "quality": "primary",
+   "angle": "Graphical perception research",
+   "claimCount": 5
+  },
+  {
+   "url": "https://datavis.cs.columbia.edu/files/papers/talbot - 4 experiments.pdf",
+   "quality": "primary",
+   "angle": "Graphical perception research",
+   "claimCount": 5
+  },
+  {
+   "url": "https://homes.cs.washington.edu/~jheer/files/2006-Banking-InfoVis.pdf",
+   "quality": "primary",
+   "angle": "Graphical perception research",
+   "claimCount": 5
+  },
+  {
+   "url": "https://tableau.com/sites/default/files/2023-01/infovis2011-talbot-arclengthbanking.pdf",
+   "quality": "primary",
+   "angle": "Graphical perception research",
+   "claimCount": 5
+  },
+  {
+   "url": "https://tableau.com/sites/default/files/2023-01/infovis2012-talbot-modelratiocomparisons.pdf",
+   "quality": "primary",
+   "angle": "Graphical perception research",
+   "claimCount": 5
+  },
+  {
+   "url": "https://vcg.seas.harvard.edu/publications/20181031-evaluating-graphical-perception-with-cnns/paper",
+   "quality": "primary",
+   "angle": "Graphical perception research",
+   "claimCount": 5
+  },
+  {
+   "url": "https://web.dev/articles/cls",
+   "quality": "primary",
+   "angle": "Layout stability and font loading",
+   "claimCount": 5
+  },
+  {
+   "url": "https://web.dev/defining-core-web-vitals-thresholds/",
+   "quality": "primary",
+   "angle": "Layout stability and font loading",
+   "claimCount": 5
+  },
+  {
+   "url": "https://developer.chrome.com/blog/font-fallbacks",
+   "quality": "primary",
+   "angle": "Layout stability and font loading",
+   "claimCount": 5
+  },
+  {
+   "url": "https://developer.chrome.com/blog/framework-tools-font-fallback",
+   "quality": "secondary",
+   "angle": "Layout stability and font loading",
+   "claimCount": 5
+  },
+  {
+   "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html",
+   "quality": "primary",
+   "angle": "Interaction laws and target size",
+   "claimCount": 5
+  },
+  {
+   "url": "https://dx.doi.org/10.1145/1152215.1152260",
+   "quality": "primary",
+   "angle": "Interaction laws and target size",
+   "claimCount": 5
+  },
+  {
+   "url": "https://www.yorku.ca/mack/chi03a.html",
+   "quality": "primary",
+   "angle": "Interaction laws and target size",
+   "claimCount": 5
+  },
+  {
+   "url": "https://jgori-ouistiti.github.io/publication/liu2020relevant",
+   "quality": "primary",
+   "angle": "Interaction laws and target size",
+   "claimCount": 4
+  },
+  {
+   "url": "https://link.springer.com/chapter/10.1007/978-3-030-90984-0_16",
+   "quality": "secondary",
+   "angle": "Contrarian: debunking design myths",
+   "claimCount": 4
+  },
+  {
+   "url": "https://stu.westga.edu/~ssynan1/literacy/Dyson.pdf",
+   "quality": "primary",
+   "angle": "Contrarian: debunking design myths",
+   "claimCount": 5
+  },
+  {
+   "url": "https://kiwix.lema.org/skeptics.stackexchange.com_en_all_2023-11/questions/5625/are-shorter-lines-easier-to-read",
+   "quality": "unreliable",
+   "angle": "Contrarian: debunking design myths",
+   "claimCount": 0
+  },
+  {
+   "url": "https://alexpoole.info/blog/which-are-more-legible-serif-or-sans-serif-typefaces/",
+   "quality": "blog",
+   "angle": "Contrarian: debunking design myths",
+   "claimCount": 5
+  },
+  {
+   "url": "https://oldisroad.com/blogs/news/a-beautiful-lie-designers-keep-telling-themselves",
+   "quality": "blog",
+   "angle": "Contrarian: debunking design myths",
+   "claimCount": 5
+  },
+  {
+   "url": "https://8thlight.com/insights/designing-irrationally",
+   "quality": "blog",
+   "angle": "Contrarian: debunking design myths",
+   "claimCount": 5
+  }
+ ],
+ "stats": {
+  "angles": 6,
+  "sourcesFetched": 27,
+  "claimsExtracted": 123,
+  "claimsVerified": 25,
+  "confirmed": 22,
+  "killed": 3,
+  "unverified": 0,
+  "afterSynthesis": 9,
+  "urlDupes": 0,
+  "budgetDropped": 9,
+  "agentCalls": 110
+ }
+}

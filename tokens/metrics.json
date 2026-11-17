@@ -1,0 +1,50 @@
+{
+  "source": "@fontsource-variable/eb-garamond, files/eb-garamond-latin-wght-normal.woff2 (default instance, weight 400)",
+  "unitsPerEm": 1000,
+  "xHeight": 0.4,
+  "capHeight": 0.65,
+  "advanceEm": {
+    "letters": 0.416,
+    "space": 0.2,
+    "capitals": 0.659,
+    "digits": 0.48,
+    "punctuation": 0.295,
+    "runningText": 0.38
+  },
+  "mix": {
+    "letters": 0.755,
+    "space": 0.18,
+    "caps": 0.02,
+    "digits": 0.02,
+    "punct": 0.025
+  },
+  "charsPerLine": {
+    "read 19px in measure 483px": 67,
+    "lg 21px in measure 483px": 60,
+    "read 19px in golden 610px (rejected)": 84,
+    "sans sm 15px in 567px (estimate, 0.5 em)": 76
+  },
+  "lineHeightPx": {
+    "read": 29.45
+  },
+  "vertical": {
+    "ascent": 1.007,
+    "descent": 0.298,
+    "lineGap": 0,
+    "table": "OS/2 typo (USE_TYPO_METRICS)"
+  },
+  "fallback": {
+    "font": "Times New Roman",
+    "avgAdvanceEm": 0.4032,
+    "ascent": 0.8911,
+    "descent": 0.2163,
+    "lineGap": 0.0425,
+    "table": "hhea"
+  },
+  "fallbackOverrides": {
+    "size-adjust": "94.31%",
+    "ascent-override": "106.78%",
+    "descent-override": "31.60%",
+    "line-gap-override": "0.00%"
+  }
+}

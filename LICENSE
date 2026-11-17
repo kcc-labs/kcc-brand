@@ -1,0 +1,89 @@
+This repository has three parts with different terms. Read all three.
+
+1. Code: MIT License (below).
+2. The KC&C and mero names and logos: not licensed. All rights reserved (below).
+3. The EB Garamond font: SIL Open Font License 1.1 (see OFL.txt).
+
+
+==============================================================================
+1. Code: MIT License
+==============================================================================
+
+Applies to the scripts (scripts/), the packages (packages/, except the files
+named in section 2), the CSS, the tokens (tokens/), the single-file kit and the
+document templates (html/, showcase/, apps/playground/), and the documentation,
+except where section 2 or 3 says otherwise.
+
+Copyright (c) 2026 KC&C
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+==============================================================================
+2. The KC&C and mero names and logos: all rights reserved
+==============================================================================
+
+Copyright (c) 2026 KC&C. All rights reserved.
+
+The names "KC&C", "KC&C Credit & Collateral" and "mero", and the KC&C and mero
+logos, monograms, marks, icons and social cards, are NOT licensed under the MIT
+License or under any other licence. This covers:
+
+  - brand/logos/        (all logo files)
+  - brand/icons/        (favicons, app icons, manifests)
+  - brand/og/           (social card and sample)
+  - brand/src/          (logo construction data; see the note on the font below)
+  - apps/playground/public/brand/   (copies of the icons)
+  - packages/design/src/brand-data.ts   (the logo outlines as data)
+  - every logo or icon drawn from these files, for example by the Logo
+    component or inside the generated templates
+
+You may use them only:
+
+  - to refer to KC&C or mero, unchanged, as the files are; or
+  - with written permission from KC&C.
+
+You may not use them in your own product, service, document or domain name; in
+a way that suggests KC&C or mero made, approves or is a partner in something;
+or in a changed form. The MIT licence in section 1 gives no right to these
+names or logos. If you copy the code, remove the KC&C and mero names and logos
+from what you publish. brand/USAGE.md says how to use the logos when you may.
+
+Note on the font: brand/src/glyphs.json and the logo outlines are drawn from
+EB Garamond. The font data itself stays under the SIL Open Font License 1.1
+(brand/src/OFL.txt). This reservation covers the KC&C and mero names, marks and
+logo designs, not the EB Garamond font.
+
+
+==============================================================================
+3. EB Garamond: SIL Open Font License 1.1
+==============================================================================
+
+EB Garamond (Copyright 2017 The EB Garamond Project Authors,
+https://github.com/octaviopardo/EBGaramond12) is embedded in the CSS of the kit
+(html/kcc.css, html/starter.html, html/templates/, showcase/index.html,
+packages/design/css/font-embed.css, packages/design/src/font-data.ts) and its
+outlines are in brand/src/glyphs.json. It is licensed under the SIL Open Font
+License, Version 1.1, not under the MIT License. The full licence text is in:
+
+  - html/OFL.txt
+  - packages/design/OFL.txt
+  - brand/src/OFL.txt
+
+The font is installed from the npm package @fontsource-variable/eb-garamond.

@@ -1,0 +1,36 @@
+{
+  "name": "kcc-design-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "description": "KC&C design system: tokens, plain HTML/CSS kit, React package and playground.",
+  "workspaces": [
+    "packages/design",
+    "apps/playground"
+  ],
+  "scripts": {
+    "tokens": "node scripts/measure-font.ts > /dev/null && node --disable-warning=ExperimentalWarning scripts/build-tokens.ts",
+    "tokens:check": "node scripts/measure-font.ts --check > /dev/null && node --disable-warning=ExperimentalWarning scripts/build-tokens.ts --check && node scripts/build-brand.ts --check > /dev/null && node scripts/verify-tailwind.ts",
+    "dev": "npm run dev -w playground",
+    "typecheck": "npm run typecheck -w @kcc/design && npm run typecheck -w playground",
+    "lint": "eslint .",
+    "build": "npm run build -w playground && node scripts/export-templates.ts",
+    "check": "npm run tokens:check && npm run typecheck && npm run lint && npm run build && npm run check:pages",
+    "brand": "node scripts/build-brand.ts",
+    "check:pages": "node scripts/check-pages.ts"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/node": "4.3.5",
+    "@types/node": "26.6.6",
+    "@typescript/typescript6": "6.0.2",
+    "eslint": "10.15.0",
+    "eslint-config-next": "16.4.6",
+    "playwright": "1.65.1",
+    "tailwindcss": "4.3.5",
+    "typescript": "7.0.2"
+  }
+}
