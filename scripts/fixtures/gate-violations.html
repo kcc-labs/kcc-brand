@@ -13,6 +13,8 @@
   .tight { line-height: 1; }
   .narrow { width: 120px; }
   .tiny { width: 16px; height: 16px; padding: 0; border: 1px solid; }
+  .box { border: 1px solid #141414; padding: 8px; }
+  .card { background: #eae6d8; }
 </style>
 </head>
 <body>
@@ -29,6 +31,13 @@
 <p><span class="kc-diff kc-diff--down">12%</span></p>
 <img src="/brand/icons/kcc/icon-48.png" alt="layout.media-size">
 <div style="width: 3000px; height: 1px">layout.reflow</div>
+<h2>budget.headingWords: this heading has far more words than a finding needs, so the budget fails</h2>
+<p>budget.fontSizes and budget.accentColours:
+  <span style="font-size: 9px; color: #b00">a</span> <span style="font-size: 10px; color: #0a0">b</span>
+  <span style="font-size: 11px; color: #00b">c</span> <span style="font-size: 12px; color: #a60">d</span>
+  <span style="font-size: 13px; color: #a0a">e</span> <span style="font-size: 15px; color: #0aa">f</span>
+  <span style="font-size: 16px; color: #660">g</span> <span style="font-size: 18px; color: #c50">h</span></p>
+<div class="box card">budget.borderAndBackground<div class="box">budget.boxDepth: a box inside a box</div></div>
 <script>
   // layout-shift: content inserted above existing content after the first paint.
   setTimeout(() => { document.getElementById("late").style.height = "80px"; }, 300);

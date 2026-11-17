@@ -16,7 +16,7 @@ numbers, and a plain sans for data. Every rule has a stated basis, and the build
 | `brand/USAGE.md` | How to use the logos: clear space, minimum sizes, colour versions, do and don't, co-branding |
 | `brand/logos/` | 7 logos × 4 colour versions, SVG (`brand/README.md` explains the construction) |
 | `brand/icons/`, `brand/og/` | Favicons and app icons (16–512 px, maskable, ICO), social card |
-| `DESIGN.md` | The full guide: principles, colour, type, layout, components, charts, documents, brand, copy |
+| `DESIGN.md` | The full guide: simplicity, the don'ts, principles, colour, type, layout, components, charts, documents, brand, copy |
 | `html/starter.html` | A single-file page to copy: CSS inline, EB Garamond embedded |
 | `html/kcc.css`, `html/kcc-charts.js` | The kit as one stylesheet and one chart script, for any HTML page |
 | `html/templates/` | Seven document templates as single HTML files: proposal, research note, term sheet, monthly report, rating report, deck, letterhead |
@@ -27,6 +27,7 @@ numbers, and a plain sans for data. Every rule has a stated basis, and the build
 | `docs/math.md`, `docs/colour.md` | How every size and colour is computed, with the measurements |
 | `docs/institutional.md` | Conventions of rating agencies, bank research and central banks, and the rules we take from them |
 | `research/references.md` | Sources we studied, and what we adopt or reject |
+| `research/apple-hig.md` | The owner's design reference: Apple HIG principles in our words, with URLs (principles only, not Apple's look) |
 | `LICENSE`, `OFL.txt` files | Terms: code under MIT; KC&C and mero names and logos reserved; EB Garamond under the SIL OFL 1.1 |
 | `AGENTS.md` | Instructions for coding agents |
 
@@ -121,7 +122,7 @@ npm run dev      # playground on http://localhost:3000
 npm run tokens   # regenerate from tokens/tokens.json (also the showcase blocks and the OFL.txt copies)
 npm run brand    # regenerate logos from brand/src/glyphs.json
 npm run build    # build the playground and export html/templates/
-npm run check    # tokens check (WCAG, colour vision, evidence floors), typecheck, lint, build, page gate
+npm run check    # tokens check (WCAG, colour vision, evidence floors), typecheck, lint, build, page gate (with the complexity budget)
 ```
 
 Node 22.18 or later. The page gate needs Chromium once: `npx playwright install chromium`.

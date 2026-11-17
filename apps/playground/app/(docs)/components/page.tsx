@@ -25,14 +25,14 @@ import NavDemo from "@/demos/nav";
 export const metadata: Metadata = { title: "Components" };
 
 const demos: { file: string; eyebrow: string; title: string; Demo: ComponentType }[] = [
-  { file: "masthead", eyebrow: "Masthead", title: "Who publishes, what it is, and the date, on one ruled line", Demo: Masthead },
+  { file: "masthead", eyebrow: "Masthead", title: "Who publishes, what it is, and the date", Demo: Masthead },
   { file: "title", eyebrow: "Page title and lede", title: "The title says what the page decides; the lede says why", Demo: Title },
   { file: "section", eyebrow: "Ruled section with eyebrow", title: "A 1 px ink rule starts every section", Demo: SectionDemo },
   { file: "figures", eyebrow: "Figure row", title: "Big serif numbers, each with a label and a basis", Demo: Figures },
   { file: "table", eyebrow: "Data table", title: "Group headers, right-aligned tabular numbers, diff chips", Demo: Table },
   { file: "notes", eyebrow: "Notes, footnotes, honesty labels", title: "Say how sure we are: [F], [I], [H], [P], assumption", Demo: Notes },
   { file: "callout", eyebrow: "Callout", title: "Scope and assumptions as a ruled block, not a coloured box", Demo: Callout },
-  { file: "flow", eyebrow: "Flow strip", title: "Who does what, in order; the reader's steps are shaded", Demo: Flow },
+  { file: "flow", eyebrow: "Flow strip", title: "Who does what, in order", Demo: Flow },
   { file: "phases", eyebrow: "Phase list", title: "A timeline with an optional status", Demo: Phases },
   { file: "lists", eyebrow: "Two-column lists", title: "Two short lists side by side", Demo: Lists },
   { file: "pills", eyebrow: "Status pills", title: "A word first; colour and marker shape repeat it", Demo: Pills },

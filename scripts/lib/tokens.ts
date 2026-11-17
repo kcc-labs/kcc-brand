@@ -30,6 +30,7 @@ export type Raw = {
     floors: Record<"runningTextPx" | "lineHeight" | "minCharsPerLine" | "targetPx" | "chartValueAxisPx" | "gridGapPx", { value: number; basis: string; use: string }>;
     cvd: { minDeltaE: { value: number; basis: string; use: string } };
   };
+  budget: Record<string, unknown>;
   contrast: { pairs: { fg: string; bg: string; min: number; apca: number; use: string }[] };
 };
 

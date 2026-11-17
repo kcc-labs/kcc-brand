@@ -377,7 +377,7 @@
   a { color: inherit; text-decoration-thickness: var(--kc-rule-width); text-underline-offset: 0.18em; }
   a:hover { text-decoration-thickness: 2px; }
   :focus-visible { outline: var(--kc-rule-focus) solid var(--kc-ink); outline-offset: 2px; }
-  code, kbd, samp { font-family: var(--kc-mono); font-size: 0.875em; }
+  code, kbd, samp { font-family: var(--kc-mono); }
   [data-theme] { background: var(--kc-paper); color: var(--kc-ink); }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; }
@@ -511,7 +511,7 @@
     color: var(--kc-muted); max-width: var(--kc-measure-wide);
   }
   .kc-note b, .kc-note strong { color: var(--kc-ink); font-weight: var(--kc-weight-bold); }
-  .kc-fnref { font: var(--kc-weight-bold) 0.65em/0 var(--kc-sans); vertical-align: super; margin-left: 1px; }
+  .kc-fnref { font: var(--kc-weight-bold) var(--kc-text-xs)/0 var(--kc-sans); vertical-align: super; margin-left: 1px; }
   .kc-fnref a { text-decoration: none; padding: 0 2px; }
   .kc-footnotes {
     margin: 0; padding: var(--kc-s2) 0 0 1.6em; border-top: var(--kc-rule-width) solid var(--kc-hair);
@@ -553,17 +553,17 @@
   /* ---------- Flow strip: who does what, in order ---------- */
   .kc-flow {
     margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; overflow: hidden;
-    border: var(--kc-rule-width) solid var(--kc-rule);
+    border-top: var(--kc-rule-width) solid var(--kc-rule); border-bottom: var(--kc-rule-width) solid var(--kc-hair);
     font: var(--kc-weight-regular) var(--kc-text-sm) / var(--kc-leading-data) var(--kc-sans);
   }
-  /* Each cell draws its left and top hairline and shifts 1px over the frame, so lines stay clean when cells wrap. */
+  /* A ruled strip, not a box. Each cell draws its left and top hairline and shifts 1px under the clip, so lines stay
+     clean when cells wrap. */
   .kc-flow > li {
     flex: 1 1 var(--kc-s8); min-width: 0; padding: var(--kc-s3); display: flex; flex-direction: column; gap: var(--kc-s1);
     border-left: var(--kc-rule-width) solid var(--kc-hair); border-top: var(--kc-rule-width) solid var(--kc-hair);
     margin: -1px 0 0 -1px;
   }
   .kc-flow__title { font-size: var(--kc-text-xs); font-weight: var(--kc-weight-bold); letter-spacing: var(--kc-tracking-head); text-transform: uppercase; }
-  .kc-flow > li.kc-flow--yours { background: var(--kc-paper-2); }
 
   /* ---------- Phase / timeline list ---------- */
   .kc-phases { list-style: none; margin: 0; padding: 0; border-top: var(--kc-rule-width) solid var(--kc-hair); }
@@ -781,7 +781,7 @@
     font-family: var(--kc-sans);
   }
   .kc-nav__brand {
-    font: var(--kc-weight-medium) var(--kc-text-base) / 1 var(--kc-serif); letter-spacing: 0.04em; text-decoration: none;
+    font: var(--kc-weight-medium) var(--kc-text-lg) / 1 var(--kc-serif); letter-spacing: 0.04em; text-decoration: none;
     padding-bottom: var(--kc-s3);
   }
   .kc-nav__brand span { color: var(--kc-muted); }
@@ -903,7 +903,7 @@
     background: var(--kc-paper); border: var(--kc-rule-width) solid var(--kc-hair);
     display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding: 4cqw 5.5cqw 3cqw; overflow: hidden;
   }
-  .kc-slide__top { display: flex; justify-content: space-between; align-items: center; border-bottom: var(--kc-rule-width) solid var(--kc-rule); padding-bottom: 1cqw; font: var(--kc-weight-regular) max(10px, 1.4cqw) / 1.2 var(--kc-sans); letter-spacing: var(--kc-tracking-caps); text-transform: uppercase; color: var(--kc-muted); }
+  .kc-slide__top { display: flex; justify-content: space-between; align-items: center; border-bottom: var(--kc-rule-width) solid var(--kc-rule); padding-bottom: 1cqw; font: var(--kc-weight-regular) max(10px, 1.3cqw) / 1.2 var(--kc-sans); letter-spacing: var(--kc-tracking-caps); text-transform: uppercase; color: var(--kc-muted); }
   .kc-slide__body { display: flex; flex-direction: column; justify-content: center; gap: 2cqw; min-height: 0; }
   .kc-slide__body > * { margin: 0; }
   .kc-slide__title { font: var(--kc-weight-medium) 4.4cqw / 1.1 var(--kc-serif); text-wrap: balance; max-width: 30ch; }
@@ -927,31 +927,31 @@
 /* Showcase of kcc-design: every colour and size below comes from the --kc-* tokens in kcc.css. */
 body { background: var(--kc-paper); color: var(--kc-ink); margin: 0; }
 .kc-page { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 34px 89px; }
-.demo-nav { display: flex; flex-wrap: wrap; gap: 4px 18px; font: 600 13px var(--kc-sans); margin-top: 21px; }
+.demo-nav { display: flex; flex-wrap: wrap; gap: var(--kc-s1) var(--kc-s4); font: var(--kc-weight-bold) var(--kc-text-xs) var(--kc-sans); margin-top: var(--kc-s4); }
 .demo-nav a { display: inline-block; line-height: 24px; min-height: 24px; color: var(--kc-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--kc-hair); }
 .logos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; border-top: 1px solid var(--kc-hair); }
 .logo { display: flex; flex-direction: column; gap: 8px; padding: 21px 21px 13px 0; border-bottom: 1px solid var(--kc-hair); min-width: 0; }
 .logo .tile { height: 120px; display: flex; align-items: center; justify-content: center; padding: 13px; }
 .logo .tile img { max-width: 100%; height: auto; }
-.logo span { font: 400 12px var(--kc-sans); color: var(--kc-muted); }
-.t-green { background: var(--kc-green-800); } .t-dark { background: #1b1a17; } .t-paper { background: var(--kc-paper); border: 1px solid var(--kc-hair); }
-.ramp { display: grid; grid-template-columns: 90px repeat(11, minmax(0, 1fr)); gap: 2px; align-items: stretch; font: 400 11px var(--kc-sans); }
-.ramp b { font: 600 12px var(--kc-sans); align-self: center; }
+.logo span { font: var(--kc-weight-regular) var(--kc-text-xs) var(--kc-sans); color: var(--kc-muted); }
+.t-green { background: var(--kc-green-800); }
+.ramp { display: grid; grid-template-columns: 90px repeat(11, minmax(0, 1fr)); gap: 2px; align-items: stretch; font: var(--kc-weight-regular) var(--kc-text-xs) var(--kc-sans); }
+.ramp b { font-weight: var(--kc-weight-bold); align-self: center; }
 .sw { height: 40px; } .sw-l { text-align: center; color: var(--kc-muted); padding-top: 2px; }
 .swatches { display: flex; flex-direction: column; gap: 13px; overflow-x: auto; }
-.cats { display: grid; grid-template-columns: 90px repeat(9, minmax(0, 1fr)); gap: 2px; font: 400 11px var(--kc-sans); }
-.cats b { font: 600 12px var(--kc-sans); align-self: center; }
+.cats { display: grid; grid-template-columns: 90px repeat(9, minmax(0, 1fr)); gap: 2px; font: var(--kc-weight-regular) var(--kc-text-xs) var(--kc-sans); }
+.cats b { font-weight: var(--kc-weight-bold); align-self: center; }
 .typescale { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--kc-hair); }
 .typescale div { display: grid; grid-template-columns: 110px 1fr; gap: 13px; align-items: baseline; border-bottom: 1px solid var(--kc-hair); padding: 8px 0; min-width: 0; }
-.typescale code { font: 400 12px var(--kc-mono); color: var(--kc-muted); }
+.typescale code { font: var(--kc-weight-regular) var(--kc-text-xs) var(--kc-mono); color: var(--kc-muted); }
 .typescale p { margin: 0; overflow-wrap: anywhere; }
 @media (max-width: 520px) { .typescale div { grid-template-columns: 1fr; gap: 3px; } }
 .islands { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(560px, 100%), 1fr)); gap: 21px; }
-.island { background: var(--kc-paper); color: var(--kc-ink); padding: 21px; border: 1px solid var(--kc-hair); display: flex; flex-direction: column; gap: 21px; min-width: 0; }
-.island h3 { margin: 0; font: 600 13px var(--kc-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--kc-muted); }
+.island { background: var(--kc-paper); color: var(--kc-ink); padding: var(--kc-s4); display: flex; flex-direction: column; gap: 21px; min-width: 0; }
+.island h3 { margin: 0; font: var(--kc-weight-bold) var(--kc-text-xs) var(--kc-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--kc-muted); }
 .tpl { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); border-top: 1px solid var(--kc-hair); }
 .tpl a { display: flex; flex-direction: column; gap: 5px; padding: 13px 21px 13px 0; border-bottom: 1px solid var(--kc-hair); color: var(--kc-ink); text-decoration: none; }
-.tpl a b { font: 500 21px var(--kc-serif); } .tpl a span { font: 400 13px var(--kc-sans); color: var(--kc-muted); }
+.tpl a b { font: var(--kc-weight-medium) var(--kc-text-lg) var(--kc-serif); } .tpl a span { font: var(--kc-weight-regular) var(--kc-text-xs) var(--kc-sans); color: var(--kc-muted); }
 .tpl a:hover b, .tpl a:focus-visible b { text-decoration: underline; }
 </style>
 </head>
@@ -965,18 +965,18 @@ body { background: var(--kc-paper); color: var(--kc-ink); margin: 0; }
   <section class="kc-section" id="brand" aria-labelledby="h-brand">
     <hgroup class="kc-head"><p class="kc-eyebrow">Brand</p><h2 class="kc-h2" id="h-brand">Marks drawn on the same grid as the type</h2></hgroup>
     <div class="logos">
-      <div class="logo"><div class="tile t-paper"><img src="../brand/logos/kcc-lockup-primary.svg" width="169" height="71" alt="KC&amp;C lockup"></div><span>KC&amp;C lockup, primary</span></div>
-      <div class="logo"><div class="tile t-paper"><img src="../brand/logos/kcc-monogram-primary.svg" width="72" height="72" alt="KC&amp;C monogram"></div><span>Monogram</span></div>
+      <div class="logo"><div class="tile"><img src="../brand/logos/kcc-lockup-primary.svg" width="169" height="71" alt="KC&amp;C lockup"></div><span>KC&amp;C lockup, primary</span></div>
+      <div class="logo"><div class="tile"><img src="../brand/logos/kcc-monogram-primary.svg" width="72" height="72" alt="KC&amp;C monogram"></div><span>Monogram</span></div>
       <div class="logo"><div class="tile t-green"><img src="../brand/logos/kcc-lockup-reversed-green.svg" width="169" height="71" alt="KC&amp;C lockup on green"></div><span>Reversed on dark green</span></div>
-      <div class="logo"><div class="tile t-paper"><img src="../brand/logos/mero-lockup-primary.svg" width="172" height="55" alt="mero lockup"></div><span>mero lockup, primary</span></div>
-      <div class="logo"><div class="tile t-paper"><img src="../brand/logos/mero-mark-primary.svg" width="72" height="72" alt="mero mark"></div><span>mero mark</span></div>
-      <div class="logo"><div class="tile t-dark"><img src="../brand/logos/mero-lockup-reversed-dark.svg" width="172" height="55" alt="mero lockup on dark paper"></div><span>Reversed on dark paper</span></div>
+      <div class="logo"><div class="tile"><img src="../brand/logos/mero-lockup-primary.svg" width="172" height="55" alt="mero lockup"></div><span>mero lockup, primary</span></div>
+      <div class="logo"><div class="tile"><img src="../brand/logos/mero-mark-primary.svg" width="72" height="72" alt="mero mark"></div><span>mero mark</span></div>
+      <div class="logo"><div class="tile" data-theme="dark"><img src="../brand/logos/mero-lockup-reversed-dark.svg" width="172" height="55" alt="mero lockup on dark paper"></div><span>Reversed on dark paper</span></div>
     </div>
   </section>
 
   <section class="kc-section" id="colour" aria-labelledby="h-colour">
     <hgroup class="kc-head"><p class="kc-eyebrow">Colour, OKLCH</p><h2 class="kc-h2" id="h-colour">Heavy green and red on cream, in even steps</h2></hgroup>
-    <div class="swatches" id="ramps">
+    <div class="swatches" id="ramps" data-kc-specimen>
 <!-- gen:ramps -->
 <div class="ramp"><b>green</b><div><div class="sw" style="background:var(--kc-green-50)"></div><div class="sw-l">50</div></div><div><div class="sw" style="background:var(--kc-green-100)"></div><div class="sw-l">100</div></div><div><div class="sw" style="background:var(--kc-green-200)"></div><div class="sw-l">200</div></div><div><div class="sw" style="background:var(--kc-green-300)"></div><div class="sw-l">300</div></div><div><div class="sw" style="background:var(--kc-green-400)"></div><div class="sw-l">400</div></div><div><div class="sw" style="background:var(--kc-green-500)"></div><div class="sw-l">500</div></div><div><div class="sw" style="background:var(--kc-green-600)"></div><div class="sw-l">600</div></div><div><div class="sw" style="background:var(--kc-green-700)"></div><div class="sw-l">700</div></div><div><div class="sw" style="background:var(--kc-green-800)"></div><div class="sw-l">800</div></div><div><div class="sw" style="background:var(--kc-green-900)"></div><div class="sw-l">900</div></div><div><div class="sw" style="background:var(--kc-green-950)"></div><div class="sw-l">950</div></div></div>
 <div class="ramp"><b>red</b><div><div class="sw" style="background:var(--kc-red-50)"></div><div class="sw-l">50</div></div><div><div class="sw" style="background:var(--kc-red-100)"></div><div class="sw-l">100</div></div><div><div class="sw" style="background:var(--kc-red-200)"></div><div class="sw-l">200</div></div><div><div class="sw" style="background:var(--kc-red-300)"></div><div class="sw-l">300</div></div><div><div class="sw" style="background:var(--kc-red-400)"></div><div class="sw-l">400</div></div><div><div class="sw" style="background:var(--kc-red-500)"></div><div class="sw-l">500</div></div><div><div class="sw" style="background:var(--kc-red-600)"></div><div class="sw-l">600</div></div><div><div class="sw" style="background:var(--kc-red-700)"></div><div class="sw-l">700</div></div><div><div class="sw" style="background:var(--kc-red-800)"></div><div class="sw-l">800</div></div><div><div class="sw" style="background:var(--kc-red-900)"></div><div class="sw-l">900</div></div><div><div class="sw" style="background:var(--kc-red-950)"></div><div class="sw-l">950</div></div></div>
@@ -989,19 +989,19 @@ body { background: var(--kc-paper); color: var(--kc-ink); margin: 0; }
   </section>
 
   <section class="kc-section" id="type" aria-labelledby="h-type">
-    <hgroup class="kc-head"><p class="kc-eyebrow">Type, golden ratio</p><h2 class="kc-h2" id="h-type">Each display size is the one below times 1.618</h2></hgroup>
-    <div class="typescale">
-      <div><code>display 89</code><p style="font:500 var(--kc-text-4xl, 89px)/1.05 var(--kc-serif)">$1.1M</p></div>
-      <div><code>title 55</code><p style="font:500 var(--kc-text-3xl, 55px)/1.08 var(--kc-serif)">Risk parameters</p></div>
-      <div><code>heading 34</code><p style="font:500 var(--kc-text-2xl, 34px)/1.15 var(--kc-serif)">A bigger pool at the same risk</p></div>
-      <div><code>lede 21</code><p style="font:400 var(--kc-text-lg, 21px)/1.45 var(--kc-serif)">We simulated the same pool twice on the same price paths.</p></div>
-      <div><code>body 17</code><p style="font:400 var(--kc-text-md, 17px)/1.6 var(--kc-serif)">Reading text runs at about 67 characters a line, set in EB Garamond.</p></div>
-      <div><code>data 14 sans</code><p style="font:400 14px/1.45 var(--kc-sans); font-variant-numeric: tabular-nums">Capacity 1,000,000 → 1,100,000 USD</p></div>
+    <hgroup class="kc-head"><p class="kc-eyebrow">Type, golden ratio</p><h2 class="kc-h2" id="h-type">One size for each job</h2></hgroup>
+    <div class="typescale" data-kc-specimen>
+      <div><code>5xl 89, once a page</code><p style="font:var(--kc-weight-medium) var(--kc-text-5xl)/1.05 var(--kc-serif)">$1.1M</p></div>
+      <div><code>4xl 55, title</code><p style="font:var(--kc-weight-medium) var(--kc-text-4xl)/1.08 var(--kc-serif)">Risk parameters</p></div>
+      <div><code>xl 27, section</code><p style="font:var(--kc-weight-medium) var(--kc-text-xl)/1.2 var(--kc-serif)">A bigger pool at the same risk</p></div>
+      <div><code>lg 21, lede</code><p style="font:var(--kc-weight-regular) var(--kc-text-lg)/1.45 var(--kc-serif)">We simulated the same pool twice on the same price paths.</p></div>
+      <div><code>read 19, text</code><p style="font:var(--kc-weight-regular) var(--kc-text-read)/1.55 var(--kc-serif)">Reading text runs at about 67 characters a line, set in EB Garamond.</p></div>
+      <div><code>sm 15, data</code><p style="font:var(--kc-weight-regular) var(--kc-text-sm)/1.4 var(--kc-sans); font-variant-numeric: tabular-nums">Capacity 1,000,000 → 1,100,000 USD</p></div>
     </div>
   </section>
 
   <section class="kc-section" id="components" aria-labelledby="h-comp">
-    <hgroup class="kc-head"><p class="kc-eyebrow">Components</p><h2 class="kc-h2" id="h-comp">Figures, tables and states, with the basis next to every number</h2></hgroup>
+    <hgroup class="kc-head"><p class="kc-eyebrow">Components</p><h2 class="kc-h2" id="h-comp">Every number with its basis</h2></hgroup>
     <dl class="kc-figs">
       <div class="kc-fig"><dt class="kc-fig__label">borrower capacity</dt><dd class="kc-fig__value">+10%</dd><dd class="kc-fig__basis">500 held-out paths, simulated, sample data</dd></div>
       <div class="kc-fig"><dt class="kc-fig__label">liquidations per path</dt><dd class="kc-fig__value">200 → 198</dd><dd class="kc-fig__basis">difference within noise</dd></div>
@@ -1021,7 +1021,7 @@ body { background: var(--kc-paper); color: var(--kc-ink); margin: 0; }
 
   <section class="kc-section" id="charts" aria-labelledby="h-charts">
     <hgroup class="kc-head"><p class="kc-eyebrow">Charts, light and dark</p><h2 class="kc-h2" id="h-charts">Drawn to scale from data, in both themes</h2></hgroup>
-    <div class="islands">
+    <div class="islands" data-kc-specimen>
       <div class="island" data-theme="light"><h3>Light paper</h3>
 <!-- gen:charts-light -->
 <div class="kc-chart__scroll"><svg viewBox="0 0 520 210" style="max-width:520px;min-width:520px" role="img" aria-label="Change in borrower capacity with software parameters, by scenario, percent (sample data)"><line x1="216" y1="4" x2="216" y2="184" class="kc-c-grid"/><text x="216" y="202" class="kc-c-tick" text-anchor="middle">−30%</text><line x1="260.1" y1="4" x2="260.1" y2="184" class="kc-c-grid"/><text x="260.1" y="202" class="kc-c-tick" text-anchor="middle">−20%</text><line x1="304.3" y1="4" x2="304.3" y2="184" class="kc-c-grid"/><text x="304.3" y="202" class="kc-c-tick" text-anchor="middle">−10%</text><line x1="348.4" y1="4" x2="348.4" y2="184" class="kc-c-axis"/><text x="348.4" y="202" class="kc-c-tick" text-anchor="middle">0%</text><line x1="392.5" y1="4" x2="392.5" y2="184" class="kc-c-grid"/><text x="392.5" y="202" class="kc-c-tick" text-anchor="middle">+10%</text><line x1="436.7" y1="4" x2="436.7" y2="184" class="kc-c-grid"/><text x="436.7" y="202" class="kc-c-tick" text-anchor="middle">+20%</text><line x1="480.8" y1="4" x2="480.8" y2="184" class="kc-c-grid"/><text x="480.8" y="202" class="kc-c-tick" text-anchor="middle">+30%</text><text x="163.8" y="21" class="kc-c-label" text-anchor="end">Real CC history</text><rect x="348.4" y="8" width="22.1" height="18" class="kc-c-up"><title>Real CC history: +5%</title></rect><text x="376.5" y="21" class="kc-c-value">+5%</text><text x="163.8" y="51" class="kc-c-label" text-anchor="end">500 resampled paths</text><rect x="348.4" y="38" width="44.1" height="18" class="kc-c-up"><title>500 resampled paths: +10%</title></rect><text x="398.5" y="51" class="kc-c-value">+10%</text><text x="163.8" y="81" class="kc-c-label" text-anchor="end">CC −30% in a day</text><rect x="282.2" y="68" width="66.2" height="18" class="kc-c-down"><title>CC −30% in a day: −15%</title></rect><text x="276.2" y="81" class="kc-c-value" text-anchor="end">−15%</text><text x="163.8" y="111" class="kc-c-label" text-anchor="end">CC −50% over 3 days</text><rect x="348.4" y="98" width="22.1" height="18" class="kc-c-up"><title>CC −50% over 3 days: +5%</title></rect><text x="376.5" y="111" class="kc-c-value">+5%</text><text x="163.8" y="141" class="kc-c-label" text-anchor="end">Worst week, twice</text><rect x="348.4" y="128" width="110.3" height="18" class="kc-c-up"><title>Worst week, twice: +25%</title></rect><text x="464.7" y="141" class="kc-c-value">+25%</text><text x="163.8" y="171" class="kc-c-label" text-anchor="end">Oracle prints too low</text><rect x="348.4" y="158" width="88.3" height="18" class="kc-c-up"><title>Oracle prints too low: +20%</title></rect><text x="442.7" y="171" class="kc-c-value">+20%</text></svg></div>

@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import {
-  Callout,
   DataTable,
   Diff,
   DivergingBars,
@@ -12,6 +11,7 @@ import {
   Note,
   PageTitle,
   Phases,
+  Pill,
   Section,
   TwoColumns,
   shownZero,
@@ -26,8 +26,6 @@ const perYear: Money[] = [
   { item: "Interest earned by suppliers", today: "$90k", soft: "$99k", change: "+$9k (+10%)", tone: "up" },
   { item: "Protocol spread (reserve factor)", today: "$10k", soft: "$11k", change: "+$1k (+10%)", tone: "up" },
   { item: "Protocol share of liquidation bonuses", today: "$3k", soft: "$2k", change: "−$1k", tone: "down" },
-  { item: "Room for borrowers (mean capacity)", today: "$1.0M", soft: "$1.1M", change: "+$100k (+10%)", tone: "up" },
-  { item: "Bad debt", today: "$0", soft: "$0", change: "no change" },
   { item: "Time to tighten after a −30% day", today: "48 h", soft: "24 h", change: "24 h sooner", tone: "up" },
 ];
 const stress: Money[] = [
@@ -66,17 +64,28 @@ export function ProposalDoc({ stamp }: { stamp?: ReactNode }) {
       {stamp}
       <PageTitle
         title="A risk parameter pilot for the Example Lending Pool"
-        lede="As we understand it, Northwind Capital sets the pool’s CC risk parameters by hand and prices CC from one oracle feed. We simulated the same pool twice on the same price paths: once as it runs today, once with parameters updated by software inside bounds Northwind sets. This page shows the results and proposes a four-week pilot."
-      >
-        <div style={{ marginTop: 21 }}>
-          <Callout label="Scope">
-            <p>
-              CC used as collateral to borrow dollars (the USD stablecoin pools are modelled as one debt pool). Other collateral is not simulated here.
-              All figures on this page are sample data for the design system: the pool, its operator and the numbers are invented.
-            </p>
-          </Callout>
-        </div>
-      </PageTitle>
+        lede={
+          <>
+            Northwind Capital sets the pool’s CC risk parameters by hand and prices CC from one oracle feed. We simulated the pool twice on the same price
+            paths: as it runs today, and with parameters set by software inside bounds Northwind sets. Scope: CC collateral against the dollar pools.{" "}
+            <Pill tone="sample">Sample data</Pill>
+          </>
+        }
+      />
+
+      <Section id="p-result" eyebrow="Result on 500 held-out paths" title="More room to borrow, the same liquidations, no bad debt">
+        <Figures
+          items={[
+            { value: "+10%", label: "borrower capacity", basis: "mean over the path" },
+            { value: "200 → 198", label: "liquidations per path", basis: "difference within noise" },
+            { value: "8.0% → 8.8%", label: "supplier yield", basis: "a year" },
+            { value: "0 → 0", label: "bad debt", basis: "in every scenario we ran" },
+          ]}
+        />
+        <p className="kc-muted">
+          The software settings were fixed before the run and checked on paths 0–499. These figures come from paths 500–999, which were not used for tuning.
+        </p>
+      </Section>
 
       <Section id="p-year" eyebrow="What it means for the pool, per year: CC collateral" title="A bigger, busier pool at the same risk">
         <DataTable label="Per year, simulated pool, today and with software parameters" rows={perYear} rowKey={(r) => r.item} rowHeader={(r) => r.item} rowHeaderLabel="Per year, simulated pool" columns={moneyColumns} />
@@ -95,52 +104,17 @@ export function ProposalDoc({ stamp }: { stamp?: ReactNode }) {
         </Note>
       </Section>
 
-      <Section id="p-result" eyebrow="Result on 500 held-out paths" title="More room to borrow, the same number of liquidations, no bad debt">
-        <Figures
-          items={[
-            { value: "+10%", label: "borrower capacity", basis: "mean over the path" },
-            { value: "200 → 198", label: "liquidations per path", basis: "difference within noise" },
-            { value: "8.0% → 8.8%", label: "supplier yield", basis: "a year" },
-            { value: "0 → 0", label: "bad debt", basis: "in every scenario we ran" },
-          ]}
-        />
-        <p className="kc-muted">
-          The software settings were fixed before the run and checked on paths 0–499. These figures come from paths 500–999, which were not used for tuning.
-        </p>
-      </Section>
-
-      <Section id="p-every" eyebrow="Every scenario" title="Change in borrower capacity with software parameters">
+      <Section id="p-every" eyebrow="Change in borrower capacity, every scenario" title="Capacity rises in 8 of 11 scenarios">
         <DivergingBars
           label="Change in borrower capacity with software parameters, by scenario, percent"
           rows={scenarios.map((s) => ({ label: s.s, value: s.d }))}
           format={(v) => signedPct(v)}
-          caption="Simulated. Bars right of zero: more capacity than today."
+          caption="Simulated, 500 held-out paths and single stress scenarios. Every value is in the appendix table."
         />
         <p className="kc-muted">
           Capacity falls in a sharp one-day crash because the software tightens within 24 hours, where a manual change took 48 hours in our assumptions for the
           same crash. That is the intended trade: less new borrowing while CC is falling.
         </p>
-        <DataTable
-          label="Every scenario: capacity, liquidations and time to first tightening"
-          rows={scenarios}
-          rowKey={(r) => r.s}
-          rowHeader={(r) => r.s}
-          rowHeaderLabel="Scenario"
-          groups={[
-            { label: "", span: 1 },
-            { label: "Borrower capacity", span: 2 },
-            { label: "Liquidations", span: 2 },
-            { label: "Time to first tightening", span: 2 },
-          ]}
-          columns={[
-            { header: "Today", cell: (r) => r.capT },
-            { header: "Software", cell: (r) => <>{r.capS} <Diff tone={shownZero(signedPct(r.d)) ? "neutral" : r.d > 0 ? "up" : "down"}>{signedPct(r.d)}</Diff></> },
-            { header: "Today", cell: (r) => r.liq[0] },
-            { header: "Software", cell: (r) => r.liq[1] },
-            { header: "Today", cell: (r) => r.time[0] },
-            { header: "Software", cell: (r) => r.time[1] },
-          ]}
-        />
       </Section>
 
       <Section id="p-health" eyebrow="Pool health, public data" title="Two things we would watch first">
@@ -154,7 +128,7 @@ export function ProposalDoc({ stamp }: { stamp?: ReactNode }) {
             <p>About 20M CC was supplied. At its weakest last week, CC order books absorbed about 15M CC within 2% of the price.</p>
           </div>
         </TwoColumns>
-        <Note>Source: the pool&apos;s public endpoint (snapshot 1 Nov 2026, 00:00 UTC) and KC&amp;C order-book data. Sample data.</Note>
+        <Note>Source: the pool&apos;s public endpoint (snapshot 1 Nov 2026, 00:00 UTC) and KC&amp;C order-book data.</Note>
       </Section>
 
       <Section id="p-how" eyebrow="How it works" title="You keep control of every value">
@@ -163,8 +137,8 @@ export function ProposalDoc({ stamp }: { stamp?: ReactNode }) {
           steps={[
             { title: "KC&C", body: "Computes parameters each hour from CC volatility and order-book depth, under a public method." },
             { title: "Signed report", body: "Sent to your receiver. Loosening needs two separate KC&C keys. Tightening needs one." },
-            { title: "Your receiver", body: "Checks the signature on ledger and applies only values inside your minimum, maximum and step.", yours: true },
-            { title: "Your pool", body: "Reads the applied values. Your oracle stays your price.", yours: true },
+            { title: "Your receiver", body: "Checks the signature on ledger and applies only values inside your minimum, maximum and step." },
+            { title: "Your pool", body: "Reads the applied values. Your oracle stays your price." },
           ]}
         />
         <ul className="kc-list">
@@ -190,10 +164,34 @@ export function ProposalDoc({ stamp }: { stamp?: ReactNode }) {
         </TwoColumns>
       </Section>
 
+      <Section id="p-appendix" eyebrow="Appendix" title="Every scenario in numbers">
+        <DataTable
+          label="Every scenario: capacity, liquidations and time to first tightening"
+          rows={scenarios}
+          rowKey={(r) => r.s}
+          rowHeader={(r) => r.s}
+          rowHeaderLabel="Scenario"
+          groups={[
+            { label: "", span: 1 },
+            { label: "Borrower capacity", span: 2 },
+            { label: "Liquidations", span: 2 },
+            { label: "Time to first tightening", span: 2 },
+          ]}
+          columns={[
+            { header: "Today", cell: (r) => r.capT },
+            { header: "Software", cell: (r) => <>{r.capS} <Diff tone={shownZero(signedPct(r.d)) ? "neutral" : r.d > 0 ? "up" : "down"}>{signedPct(r.d)}</Diff></> },
+            { header: "Today", cell: (r) => r.liq[0] },
+            { header: "Software", cell: (r) => r.liq[1] },
+            { header: "Today", cell: (r) => r.time[0] },
+            { header: "Software", cell: (r) => r.time[1] },
+          ]}
+        />
+      </Section>
+
       <Footer>
         <p>
           Method: a pool of this shape simulated hour by hour from public data only and KC&amp;C market data. Borrower behaviour and the manual operator&apos;s
-          delay are our assumptions. Sample data: the pool, its operator and every figure on this page are invented for the design system.
+          delay are our assumptions. The pool, its operator and every figure are invented for the design system.
         </p>
         <p>KC&amp;C publishes data and does not lend. Simulation results are not a forecast.</p>
       </Footer>

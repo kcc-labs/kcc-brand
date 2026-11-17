@@ -17,7 +17,7 @@
 .pg-swatch span { color: var(--kc-muted); overflow-wrap: anywhere; }
 .pg-ramp { display: grid; grid-template-columns: 89px repeat(11, minmax(0, 1fr)); gap: 2px; align-items: center; font: var(--kc-weight-regular) var(--kc-text-xs) / 1.2 var(--kc-sans); }
 .pg-ramp i { display: block; height: 34px; }
-.pg-ramp small { color: var(--kc-muted); text-align: center; font-size: 11px; }
+.pg-ramp small { color: var(--kc-muted); text-align: center; }
 .pg-chips { display: flex; flex-wrap: wrap; gap: 2px; }
 .pg-chips i { display: block; width: 34px; height: 21px; }
 .pg-themes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: var(--kc-s4); }

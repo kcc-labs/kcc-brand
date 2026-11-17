@@ -9,10 +9,83 @@ the sources in `research/references.md`. Brand files are in `brand/`, and how to
 `docs/institutional.md`. If a rule here and the code do not agree, fix the one that is wrong.
 
 **Every rule has a basis.** `docs/evidence.md` lists each rule with its basis: a measured study, a published
-standard (a requirement of that standard), mathematics, our own measurement in CI, or **convention** (a choice
-of taste or habit, allowed, but labelled). Popularity is not a basis. Rules marked *(convention)* below can change
-when the owner's taste changes; the others change only with new evidence. Do not add a rule without a row in
-`docs/evidence.md`.
+standard (a requirement of that standard), a published guideline the owner chose as the reference (**Apple HIG**,
+quoted with its URL), mathematics, our own measurement in CI, or **convention** (a choice of taste or habit,
+allowed, but labelled). Popularity is not a basis. Rules marked *(convention)* below can change when the owner's
+taste changes; rules marked *(Apple HIG)* change when the guideline or the owner's reference changes; the others
+change only with new evidence. When the HIG and a study disagree, the study wins. Do not add a rule without a row
+in `docs/evidence.md`.
+
+## Simplicity *(Apple HIG, the owner's reference)*
+
+Apple's design principles: "A well-designed experience removes the unnecessary, with every element earning its
+place" (https://developer.apple.com/design/human-interface-guidelines/design-principles). We take the principle,
+not Apple's look. Notes and the other HIG pages we use: `research/apple-hig.md`.
+
+- **Content first.** The finding and the number come first. Controls, notes and method sit below them.
+- **One idea per section.** A section has one heading, and the heading is its finding. A second idea gets a
+  second section.
+- **Fewer elements.** Fewer sizes, colours, rules and labels. The page gate counts them (budget below).
+- **Generous whitespace, on the scale.** Separate things with space from the spacing scale (s4 21 between blocks,
+  s6 55 between sections) before you reach for a rule, and with a rule before a box.
+- **Remove before adding.** To fix a page, first look for something to take away.
+- **Every element earns its place.** Name the job of each block, rule, label, colour and note. No job: remove it.
+  Simplicity is not minimalism: the unit, basis, date and source of a figure, the confidentiality mark and the
+  disclosures required by law always have a job.
+
+**Complexity budget** *(convention; the numbers are ours, gated by the page gate, `tokens.json` → `budget`)*. Per
+page, as rendered at 1280 and 320 px:
+
+| Count | Fails above | Warns at | Why this number |
+|---|---|---|---|
+| Distinct font sizes | 7 | 7 | Seven type roles: secondary 13, data 15, body 17 or 19, lede 21, section 27, figure 34 or 43, title 55 |
+| Distinct non-neutral colours | 6 | 6 | Up, down and watch, plus at most three series colours; a heatmap ramp counts once |
+| Bordered boxes inside bordered boxes | 1 | — | No box inside a box (controls, pills, sheets and slides are not boxes) |
+| Elements with a border and a background | 0 | — | That is a card; controls are exempt |
+| Words in the longest heading | 12 | 11 | A finding fits in a short sentence |
+
+A block that shows the scale or the palette on purpose (a specimen on the Tokens or Colour page) carries
+`data-kc-specimen` and is not counted. Do not use it to hide a real page from the budget.
+
+## Don'ts
+
+One list. Each item says its basis; `docs/evidence.md` has the source. *(HIG: Apple Human Interface Guidelines,
+the owner's reference.)*
+
+1. **No decoration without a job.** No ornament, texture, illustration or divider that carries no information.
+   *(Apple HIG: Design principles)*
+2. **No more than one accent colour a view.** Heavy green marks one thing; up, down and watch mean only better,
+   worse and watch. *(Apple HIG: Color; the "one" is convention)*
+3. **No colour as the only signal.** Every coloured state also has a sign, a word or a shape. *(Standard: WCAG
+   2.2 SC 1.4.1; gated)*
+4. **No boxes inside boxes, and no cards.** No panel with a border and a background, no shadow, no rounded block,
+   no gradient. The legal box is the only framed block. *(convention; gated)*
+5. **No duplicate information.** Do not show the same numbers as a chart and a table on one page; put the table
+   in an appendix. Do not repeat a figure in the figure row, the text and a table. *(Apple HIG: Charting data)*
+6. **No more than seven font sizes a page, and none off the scale.** *(convention; the count is gated)*
+7. **No legend when a direct label fits.** Name series at the line end and values at the bar end. Legends are
+   for heatmap scales and paired bars only. *(convention)*
+8. **No icon without a visible text label.** *(convention, stricter than the HIG; the accessible name is WCAG 2.2
+   SC 4.1.2)*
+9. **No animation that is not feedback** to the reader's own action. Nothing moves on its own. *(Apple HIG:
+   Motion)*
+10. **No uppercase sentences and no italics for emphasis.** Uppercase only for short labels. *(convention)*
+11. **No marketing words** ("powerful", "seamless", "cutting-edge") and no promises ("safe", "guaranteed",
+    "insured", "risk-free", "deposit", a promised return). *(Apple HIG: Writing; the word list is convention)*
+12. **No subjective words about data** ("rapidly", "almost", "soared"): give the value. *(Apple HIG: Charts)*
+13. **No crypto clichés:** neon, glows, coins, emoji, rocket language. *(convention, `docs/institutional.md`)*
+14. **No headings that name a topic** ("Results") and none over 12 words. *(convention; length gated)*
+15. **No pies, bubbles or stacked bars to compare values.** *(Study: Cleveland and McGill 1984; Talbot et al.
+    2014)*
+16. **No area fill under a line whose axis does not start at zero.** A filled area reads as size from the
+    baseline. *(Math)*
+17. **No more than one primary button a view.** *(convention, inside the HIG's "one or two")*
+18. **No critical value only on hover** or behind a click. Print it. *(Apple HIG: Charts)*
+19. **No light font weights.** Serif 400 and 500, sans 400 and 600 only. *(Apple HIG: Typography)*
+20. **No "click here", no "Oops", no blame** in errors: say what is wrong and how to fix it. *(Apple HIG: Writing)*
+21. **No "we" in app interface text.** Name the actor ("the lender sells"). Documents may say "we": the masthead
+    names us. *(Apple HIG: Writing)*
+22. **No redrawn, recoloured or stretched logo.** *(convention; `brand/USAGE.md` has the full logo list)*
 
 ## 1. Principles
 
@@ -51,7 +124,7 @@ In apps (`body class="kc-app"`), interface text is sans at 17 px. Titles, the st
 in the serif.
 
 Uppercase is only for short labels: eyebrows, the masthead, table headers, nav, buttons, h3 labels. Uppercase
-text has 0.04–0.06 em tracking. Never set a sentence in uppercase. Do not use italics for emphasis. *(convention)*
+text has 0.04–0.06 em tracking (Don'ts, 10). *(convention)*
 
 ## 3. Type scale
 
@@ -115,12 +188,11 @@ chips and buttons. Do not use other weights.
 
 ## 5. Rules, not cards *(convention)*
 
-| Do | Do not |
-|---|---|
-| 1 px ink rule above each section, table and figure row | Cards, panels or tiles with a background |
-| Hairlines between rows and figure cells | Shadows of any kind |
-| `--kc-paper-2` to show "this step is yours" in a flow | Rounded corners on blocks (radius small is only for inputs, selects, pills) |
-| One square, 2 px frame: the legal box | Coloured boxes for callouts; a callout is a ruled block with a label |
+- A 1 px ink rule above each section, table, flow strip and figure row. Hairlines between rows and figure cells.
+- One square, 2 px frame: the legal box. A callout is a ruled block with a label, not a coloured box.
+- `--kc-paper-2` marks only a selected table row. A step the reader owns says so in its title ("Your pool"); it
+  has no tint.
+- Radius small only on inputs, selects and pills. What not to do is in the Don'ts list (4).
 
 ## 6. Colour
 
@@ -183,8 +255,8 @@ chips and buttons. Do not use other weights.
   gridlines improved accuracy; 8 px is the authors' suggestion). The chart functions raise the height and drop
   ticks to meet both at the narrowest drawn width (520 px). Sparklines are not for reading values: print the value
   next to them.
-- Label the data directly: values at bar ends, series names at line ends. Use a legend only for stacked areas and
-  heatmap scales. *(convention: direct labels have no verified study in our research)*
+- Label the data directly: values at bar ends, series names at line and layer ends. Use a legend only for heatmap
+  scales and paired bars. *(convention: direct labels have no verified study in our research)*
 - Gridlines are hairlines. Zero and the axis are ink. Limits (margin call) are a dashed ochre line, labelled.
 - Categorical colours in order: ink, green, red, blue, ochre, plum, mauve, olive. Use no more than 4 without direct
   labels *(convention)*. In comparisons, the baseline is neutral grey and the subject is ink.
@@ -195,18 +267,18 @@ chips and buttons. Do not use other weights.
   validated) are options for line charts where slopes matter. When unsure, prefer a wider, flatter chart. The
   default ratio 1/φ² (0.382) and the clamp [1/φ³, 1/φ] are *(convention)*.
 - Every chart is a `<figure>` with an accessible name that states the measure, unit and period. Each bar has a
-  `<title>` with its value. A caption gives the source and basis. Put a table with the numbers next to any chart
-  a reader must act on.
+  `<title>` with its value. A caption gives the source and basis, not a note on the design. When a reader must check
+  the numbers of a chart, put the table in an appendix, not next to the chart *(Apple HIG: Charting data)*.
 
 ## 10. Copy voice *(convention)*
 
 - Plain, short sentences. Active voice. Present tense. Write for a reader whose first language is not English.
-- Use the reader's words: "Amount you want to borrow", not "Principal requested". Use "you" and "we".
+- Use the reader's words: "Amount you want to borrow", not "Principal requested". Use "you". In documents "we" is
+  KC&C, named in the masthead; in app interface text, name the actor *(Apple HIG: Writing)*.
 - Lead with the result, then the method. Put the method and the limits in a note or the footer, not in the
   heading.
 - Name the uncertainty. "Within noise", "our assumption", "not a forecast".
-- Do not use "safe", "guaranteed", "insured", "risk-free", "deposit", or a promised return. Do not use marketing
-  adjectives ("powerful", "seamless", "cutting-edge").
+- Forbidden words and claims: Don'ts, 11 and 12.
 - Buttons say the action: "Get quote", "Accept this offer". An error says what is wrong and how to fix it:
   "Enter at least 400,000 CC for this amount."
 
@@ -238,8 +310,9 @@ chips and buttons. Do not use other weights.
   high *(convention)*.
 - Never use colour alone to give information (section 6).
 - Scrollable tables are regions with a name and `tabindex="0"`.
-- `prefers-reduced-motion` turns off every transition. Motion is only hover feedback (200–350 ms, one easing curve;
-  the durations and the curve are *(convention)*).
+- `prefers-reduced-motion` turns off every transition. Motion is only feedback to the reader's action, such as
+  hover (200–350 ms, one easing curve; the durations and the curve are *(convention)*; feedback only is *(Apple HIG:
+  Motion)*).
 - Live results (quotes) are in `aria-live="polite"`.
 
 ## 13. Web first; sheets for documents that leave
@@ -339,7 +412,7 @@ Generated by `npm run tokens`: WCAG 2.2 ratio (the gate) and APCA Lc (recorded),
   Reversed to paper only on the heavy green or on dark paper.
 - **Clear space and size.** 21 units clear on every side. Minimum sizes: lockup 55 px, wordmark 13 px cap height,
   monogram 24 px, icons 16 px.
-- **Do not** stretch, rotate, add effects, put a mark in a circle or a coin, or place a logo on a busy background.
+- Logo don'ts: Don'ts, 22, and the full list in `brand/USAGE.md`.
 - **Icons and cards.** Favicons and app icons are in `brand/icons/` (16 to 512, maskable). Social cards use
   `brand/og/og-card.html`: the monogram, an eyebrow, the finding as the title, the date.
 - **Original work only.** Do not imitate the logo, name, colours or layout of a real firm.
@@ -369,5 +442,4 @@ Our documents follow the conventions of rating agencies, bank research and centr
   terms, then schedules.
 - **Decks:** one finding a slide, the number as the largest thing, only the cover in green, and number,
   confidentiality and "x / y" on every slide.
-- **No crypto clichés:** no neon, gradients, glows, coins, emoji or rocket language (`docs/institutional.md`,
-  section 3).
+- **No crypto clichés** (Don'ts, 13; `docs/institutional.md`, section 3).

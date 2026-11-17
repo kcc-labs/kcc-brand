@@ -8,6 +8,21 @@ The KC&C design system: tokens, a plain HTML/CSS kit, a React 19 package (`@kcc/
 npm workspaces: `packages/design`, `apps/playground`. Rules for designers: `DESIGN.md`. Basis of every rule:
 `docs/evidence.md`. Maths: `docs/math.md`. Colour proof: `docs/colour.md`.
 
+## Simplicity and don'ts
+
+The owner's reference is Apple's Human Interface Guidelines, principles only (`research/apple-hig.md`): remove the
+unnecessary; every element earns its place. Do not copy Apple's look (no SF fonts, no Apple imagery or UI).
+
+- **Remove before adding.** To fix or improve a page, first look for a block, rule, label, colour, note or number
+  to take away. Never take away a figure's unit, basis, date or source, the confidentiality mark or a legal line.
+- **Check the budget.** `node scripts/check-pages.ts --budget` prints, per page, the font sizes, non-neutral
+  colours, box depth, border-plus-background count and longest heading. Limits: `tokens.json` → `budget`
+  (DESIGN.md, Simplicity). Stay under them; a warning means you are at the edge.
+- **Follow the Don'ts** in `DESIGN.md` (one numbered list). When you remove or refuse something, cite the don't
+  in your report or commit message ("Don'ts 5: table moved to the appendix").
+- `data-kc-specimen` is only for blocks that show the scale or the palette on purpose. Do not use it to get a
+  page under the budget.
+
 ## Commands
 
 - `npm install`: install (Node 22.18 or later; Node runs the `.ts` scripts directly).
@@ -18,7 +33,7 @@ npm workspaces: `packages/design`, `apps/playground`. Rules for designers: `DESI
 - `npm run dev`: playground at http://localhost:3000.
 - `npm run check`: the gate. It runs, in order: the tokens check (stale files, WCAG 2.2 contrast, colour-vision
   pairs, evidence floors, font metrics, the Tailwind preset), typecheck, lint, the production build, then the page
-  gate (`npm run check:pages`, Playwright Chromium). It must pass before you finish. First run on a machine:
+  gate (`npm run check:pages`, Playwright Chromium; it includes the complexity budget). It must pass before you finish. First run on a machine:
   `npx playwright install chromium`.
 - `node scripts/check-pages.ts --verbose`: the page gate with every warning listed.
 
@@ -39,7 +54,7 @@ npm workspaces: `packages/design`, `apps/playground`. Rules for designers: `DESI
 
 - Never hard-code a colour, size, space, radius or duration. Use `var(--kc-…)` in CSS and `tokens` in TypeScript.
   If no token fits, add a parameter to `tokens.json`. Do not add a one-off value.
-- No shadows, no rounded cards, no gradients. Radius is 0, or `--kc-radius-small` on inputs, selects and pills.
+- Radius is 0, or `--kc-radius-small` on inputs, selects and pills. Everything else not to do: DESIGN.md, Don'ts.
 - Serif for words and big figures, sans for data and interface (DESIGN.md, section 2).
 - Every figure in an example has a unit, basis and date. Invented data is labelled "Sample data".
 - Components have no hooks and no `"use client"`, so they work in Server Components. Put interactivity in the app.
@@ -64,7 +79,7 @@ npm workspaces: `packages/design`, `apps/playground`. Rules for designers: `DESI
   `Disclaimer`.
 - Start new documents from a template in `apps/playground/app/(sheet)/templates/` (or `html/templates/` for single
   files). Keep the furniture; replace only the content.
-- No crypto clichés: neon, gradients, glows, coins, emoji. Never imitate a real firm's logo or name.
+- Never imitate a real firm's logo, name or look (this includes Apple's).
 - **Everything about design lives in this repo**: tokens, components, templates, brand files, research, evidence,
   showcase (`showcase/`), and the tooling to print and review documents (`scripts/print-pdf.sh`,
   `scripts/render-pdf-pages.swift`). Never leave design work in a temporary folder.
@@ -79,7 +94,8 @@ npm workspaces: `packages/design`, `apps/playground`. Rules for designers: `DESI
 ## Evidence rule
 
 - Do not add a design rule without a basis in `docs/evidence.md`: a study, a standard (as a requirement of that
-  standard), mathematics, our CI measurement, or "convention" (allowed, but labelled). Popularity is not a basis.
+  standard), a guideline from the Apple HIG (quoted, with the page URL), mathematics, our CI measurement, or
+  "convention" (allowed, but labelled). Popularity is not a basis. A study outranks the HIG.
 - Do not cite a claim listed as refuted or unverified in `docs/evidence.md` (section 3) as evidence.
 - A new measurable rule gets a check in `scripts/build-tokens.ts` or `scripts/check-pages.ts`, and a violation in
   `scripts/fixtures/gate-violations.html`. The gate's self-test fails if a rule stops firing.
@@ -98,6 +114,10 @@ npm workspaces: `packages/design`, `apps/playground`. Rules for designers: `DESI
 | `colour.redundancy` | A change chip has a sign (+, U+2212) or a word; a value that rounds to zero is `neutral`; pills have a word; up/down marks have a signed `<title>`; heatmap cells print values. |
 | `layout.reflow`, `layout.media-size` | No horizontal page scroll at 320 px; wrap wide tables and charts in their scroll wrapper. Images get `width`/`height`. |
 | Colour-vision pair < 2 (tokens) | Move the lightness of one colour apart (OKLCH L), then `npm run tokens`. Never rely on the colour alone. |
+| `budget.fontSizes` | Use the type scale only (no `em` or px sizes); one size per role. Two body sizes on one page (17 and 19) is the usual cause. |
+| `budget.accentColours` | Remove a series or a chart; a page rarely needs a heatmap and a stacked area. State colours only for state. |
+| `budget.boxDepth`, `budget.borderAndBackground` | Replace the box or card with a rule and space (DESIGN.md, section 5). |
+| `budget.headingWords` | Say the finding in fewer words; move the method to the eyebrow or a note. |
 | Evidence floor (tokens) | Do not lower a floor in `tokens.json` → `evidence`; change the token instead. |
 
 ## Chart rules (evidence)
@@ -134,7 +154,8 @@ npm workspaces: `packages/design`, `apps/playground`. Rules for designers: `DESI
 
 ## Before you finish (PR checklist)
 
-- [ ] `npm run check` passes, including the page gate (no layout shift, floors, targets, charts, redundancy).
+- [ ] `npm run check` passes, including the page gate (no layout shift, floors, targets, charts, redundancy, budget).
+- [ ] You removed something before you added something, and named the don't you followed.
 - [ ] Every new or changed rule has a row in `docs/evidence.md` with its basis.
 - [ ] No hard-coded colours or sizes. `grep -nE '#[0-9a-fA-F]{3,6}\b' packages/design/css/components.css` finds
       nothing. Raw px are allowed only for 1–4 px optical offsets, pill marker sizes, the A4/Letter sheet sizes and media-query breakpoints

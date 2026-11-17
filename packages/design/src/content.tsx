@@ -103,14 +103,14 @@ export function Callout({ label, children }: { label: ReactNode; children: React
 
 /* ---------- Flow strip and phases ---------- */
 
-export type FlowStep = { title: ReactNode; body: ReactNode; yours?: boolean };
+export type FlowStep = { title: ReactNode; body: ReactNode };
 
-/** Who does what, in order. Steps the reader owns (`yours`) sit on the sunk paper. */
+/** Who does what, in order. Name the reader's steps in the title ("Your pool"); no tint. */
 export function Flow({ steps, label }: { steps: FlowStep[]; label?: string }) {
   return (
     <ol className="kc-flow" aria-label={label}>
       {steps.map((s, i) => (
-        <li key={i} className={s.yours ? "kc-flow--yours" : undefined}>
+        <li key={i}>
           <span className="kc-flow__title">{s.title}</span>
           <span>{s.body}</span>
         </li>

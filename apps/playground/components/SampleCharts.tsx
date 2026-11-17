@@ -1,4 +1,4 @@
-import { Columns, DivergingBars, Heatmap, Legend, LineChart, PairedBars, ScaleKey, Sparkline, StackedArea, Pill, num, signedPct, usdCompact } from "@kcc/design";
+import { Columns, DivergingBars, Heatmap, LineChart, PairedBars, ScaleKey, Sparkline, StackedArea, Pill, num, signedPct, usdCompact } from "@kcc/design";
 import { burnMint, ccDays, ccPrice, depthNow, depthWeekAgo, heat, mix, shortDate, venues, walk, weeks } from "@/lib/sample";
 
 const price = (v: number) => "$" + v.toFixed(3);
@@ -60,7 +60,6 @@ export function SampleCharts({ w }: { w: number }) {
         layers={mix.layers}
         xFormat={(i) => `W${20 + i}`}
         yFormat={(v) => usdCompact(v * 1e6)}
-        legend={<Legend items={mix.layers.map((l, i) => ({ label: l.name, swatch: `kc-c-cat-${i + 1}` }))} />}
         caption="Stacked area: categorical colours 1–4 in order, each layer named at its end."
       />
       <Heatmap

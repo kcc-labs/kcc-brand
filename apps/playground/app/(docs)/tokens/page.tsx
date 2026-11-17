@@ -8,7 +8,7 @@ type Sw = { light: string; dark: string; use: string };
 
 function Swatches({ group, prefix }: { group: Record<string, Sw>; prefix: string }) {
   return (
-    <div className="pg-themes">
+    <div className="pg-themes" data-kc-specimen>
       {(["light", "dark"] as const).map((mode) => (
         <div data-theme={mode} key={mode}>
           <p className="kc-eyebrow">{mode}</p>
@@ -41,14 +41,12 @@ export default function Tokens() {
       <Section id="colour" eyebrow="Colour, semantic" title="Paper, ink and three state colours">
         <Swatches group={color as unknown as Record<string, Sw>} prefix="kc-" />
         <DataTable
-          label="Semantic colour tokens and their use"
+          label="Semantic colour tokens and their use (values in the swatches above)"
           rows={Object.entries(color)}
           rowKey={([n]) => n}
           rowHeader={([n]) => <code>--kc-{n}</code>}
           rowHeaderLabel="Token"
           columns={[
-            { header: "Light", cell: ([, c]) => c.light },
-            { header: "Dark", cell: ([, c]) => c.dark },
             { header: "Use", text: true, cell: ([, c]) => <span style={{ whiteSpace: "normal" }}>{c.use}</span> },
           ]}
         />
@@ -56,7 +54,7 @@ export default function Tokens() {
       </Section>
 
       <Section id="type" eyebrow="Type, px" title="Two families, one scale from a 13 px anchor">
-        <div className="pg-type">
+        <div className="pg-type" data-kc-specimen>
           {Object.entries(text)
             .sort((a, b) => a[1].px - b[1].px)
             .map(([n, s]) => (
@@ -100,7 +98,7 @@ export default function Tokens() {
         </div>
       </Section>
 
-      <Section id="grid" eyebrow="Layout, px" title="A 987 px page: 12 columns of 63 with 21 px gutters, and a golden split">
+      <Section id="grid" eyebrow="Layout, px" title="A 987 px page in 12 columns">
         <div className="pg-gridshow" aria-hidden="true">
           {Array.from({ length: 12 }, (_, i) => (
             <i key={i} />

@@ -7,21 +7,18 @@ import {
   DocMeta,
   Figures,
   Footer,
-  Heatmap,
   Logo,
   Masthead,
   Page,
   PageTitle,
   Phases,
   Pill,
-  ScaleKey,
   Section,
   StackedArea,
-  num,
   usdCompact,
   type DocInfo,
 } from "@kcc/design";
-import { heat, mix, venues, weeks } from "@/lib/sample";
+import { mix } from "@/lib/sample";
 
 export const metadata: Metadata = { title: "Monthly monitoring report" };
 
@@ -50,20 +47,18 @@ export default function MonthlyReport() {
         <Logo name="kcc-lockup" height={34} />
         <ClassMark level={doc.classification} recipient={doc.recipient} />
       </div>
-      <Masthead left="KC&C · Monitoring" right="November 2026 · issued 1 Dec 2026" />
+      <Masthead left="KC&C · Monitoring" right="November 2026" />
       <PageTitle
         title="November: limits held; two measures on watch"
         lede="No breach this month. USDCx utilisation and CC depth moved toward their limits, so both are on watch for December. All figures are sample data."
       />
       <DocMeta doc={doc} />
 
-      <Section id="mr-month" eyebrow="The month in four numbers, 30 Nov 2026" title="Coverage up, depth down">
+      <Section id="mr-month" eyebrow="The month, 30 Nov 2026" title="Coverage up, no bad debt">
         <Figures
           compact
           items={[
             { value: "2.6×", label: "collateral coverage", basis: <>median, <Diff tone="up">+0.2×</Diff> on October</> },
-            { value: "4.1%", label: "debt near liquidation", basis: <>within 10%, <Diff tone="up">−2.7 pt</Diff></> },
-            { value: "18.0M", label: "CC depth within 2%", basis: <>five venues, <Diff tone="down">−2%</Diff></> },
             { value: "$0", label: "bad debt", basis: "realised in the month" },
           ]}
         />
@@ -84,16 +79,8 @@ export default function MonthlyReport() {
         />
       </Section>
 
-      <Section id="mr-charts" eyebrow="Collateral, million USD, and weekly depth change, percent" title="CC is still half of the collateral">
+      <Section id="mr-mix" eyebrow="Collateral by asset, million USD, weekly" title="CC is still half of the collateral">
         <StackedArea label="Collateral by asset, million USD, 26 weeks (sample)" x={mix.x} layers={mix.layers} xFormat={(i) => `W${20 + i}`} yFormat={(v) => usdCompact(v * 1e6)} />
-        <Heatmap
-          label="Weekly change in depth by venue, percent (sample)"
-          rows={venues}
-          cols={weeks}
-          values={heat}
-          format={(v) => num(v, 0)}
-          legend={<ScaleKey scale="diverging" low="−20%: thinner" high="+20%: deeper" />}
-        />
       </Section>
 
       <Section id="mr-changes" eyebrow="Parameter changes in the month" title="Three changes, all tightening">

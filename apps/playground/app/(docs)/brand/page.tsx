@@ -20,7 +20,7 @@ const VARIANTS: { v: LogoVariant; bg: string; label: string }[] = [
   { v: "reversed-dark", bg: BRAND_COLORS.darkPaper, label: "Reversed, on dark paper" },
 ];
 
-const tile: CSSProperties = { display: "flex", alignItems: "center", justifyContent: "center", padding: 21, minHeight: 110, border: "1px solid var(--kc-hair)" };
+const tile: CSSProperties = { display: "flex", alignItems: "center", justifyContent: "center", padding: 21, minHeight: 110 };
 
 function Rule({ ok, children, label }: { ok: boolean; children: ReactNode; label: string }) {
   return (
@@ -123,7 +123,7 @@ export default function Brand() {
       </Section>
 
       <Section id="b-rules" eyebrow="Use" title="Do and don't">
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 21 }}>
+        <div data-kc-specimen style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 21 }}>
           <Rule ok label="Use the file or the Logo component, at a listed size.">
             <Logo name="kcc-lockup" height={55} variant="primary" />
           </Rule>

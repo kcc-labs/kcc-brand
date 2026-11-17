@@ -10,7 +10,7 @@ type Vision = (typeof VISIONS)[number];
 
 function Chips({ colors, label }: { colors: readonly string[]; label: string }) {
   return (
-    <div className="pg-chips" role="img" aria-label={label}>
+    <div className="pg-chips" data-kc-specimen role="img" aria-label={label}>
       {colors.map((c, i) => (
         <i key={i} style={{ background: c }} title={c} />
       ))}
@@ -31,7 +31,7 @@ export default function Colour() {
       />
 
       <Section id="ramps" eyebrow="Tonal ramps, OKLCH, fixed lightness per step" title="Six ramps; the semantic colours are steps on them">
-        <div className="pg-ramp">
+        <div className="pg-ramp" data-kc-specimen>
           <span />
           {Object.keys(rampSteps).map((s) => (
             <small key={s}>{s}</small>
@@ -48,7 +48,7 @@ export default function Colour() {
       </Section>
 
       <Section id="cvd" eyebrow="Chart scales under colour-vision simulation (Machado 2009)" title="Eight categories stay apart; green and red need a second cue">
-        <div className="pg-themes">
+        <div className="pg-themes" data-kc-specimen>
           {(["light", "dark"] as const).map((mode) => (
             <div data-theme={mode} key={mode}>
               <p className="kc-eyebrow">{mode}</p>
@@ -88,7 +88,7 @@ export default function Colour() {
       </Section>
 
       <Section id="charts" eyebrow="Sample data, both themes" title="Every chart type on cream and on dark paper">
-        <div className="pg-themes">
+        <div className="pg-themes" data-kc-specimen>
           <div data-theme="light">
             <SampleCharts w={436} />
           </div>

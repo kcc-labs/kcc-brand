@@ -18,7 +18,7 @@ export default function TermSheetTemplate() {
   return (
     <Sheets doc={doc} letter>
       <>
-        <p className="kc-eyebrow">Indicative terms · not an offer</p>
+        <p className="kc-eyebrow">Term sheet</p>
         <h1 className="kc-title">Risk parameter service</h1>
         <DocMeta doc={doc} />
         <Callout label="Status">

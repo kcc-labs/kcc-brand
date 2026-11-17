@@ -72,8 +72,6 @@ export default function ResearchNote() {
               title="Key data"
               rows={[
                 ["CC price", `$${last.toFixed(4)}`],
-                ["Depth within 2%", "18.0M CC"],
-                ["Change, 7 days", <Diff key="d" tone="down">−2.2%</Diff>],
                 ["Venues", "5"],
                 ["Data as of", "17 Nov 2026, 17:00 UTC"],
                 ["Next note", "1 Dec 2026"],

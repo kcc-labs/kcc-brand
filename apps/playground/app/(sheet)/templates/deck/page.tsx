@@ -17,7 +17,7 @@ export default function Deck() {
         <p className="kc-eyebrow" style={{ color: "inherit" }}>
           For Northwind Capital · 17 November 2026
         </p>
-        <h1 className="kc-slide__title kc-slide__title--cover">A risk parameter pilot: four weeks in shadow, then your decision</h1>
+        <h1 className="kc-slide__title kc-slide__title--cover">A risk parameter pilot, four weeks in shadow</h1>
       </Slide>
 
       <Slide doc={doc} n={2} total={TOTAL} section="Result">
@@ -51,7 +51,6 @@ export default function Deck() {
           rows={[
             { i: "Interest paid by borrowers", t: "$100k", s: "$110k", d: <Diff tone="up">+10%</Diff> },
             { i: "Interest earned by suppliers", t: "$90k", s: "$99k", d: <Diff tone="up">+10%</Diff> },
-            { i: "Bad debt", t: "$0", s: "$0", d: "no change" },
           ]}
           rowKey={(r) => r.i}
           rowHeader={(r) => r.i}

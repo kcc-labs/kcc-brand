@@ -56,7 +56,7 @@ export function HtmlSource({ children, react }: { children: ReactNode; react: st
   }, []);
   return (
     <div className="pg-demo">
-      <div className="pg-demo__live" ref={ref}>
+      <div className="pg-demo__live" data-kc-specimen ref={ref}>
         {children}
       </div>
       <details className="pg-demo__code">

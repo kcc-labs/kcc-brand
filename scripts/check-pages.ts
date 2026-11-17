@@ -11,9 +11,12 @@
  *   4. Charts: value axis >= 80 CSS px, gridlines >= 8 CSS px apart (Heer and Bostock 2010).
  *   5. Colour redundancy (WCAG 2.2 SC 1.4.1): diff chips carry a sign or a word, pills carry a word, up/down
  *      marks carry a signed value, heatmap cells print their value.
+ *   6. Complexity budget (convention, Apple HIG "Simplicity"; tokens.json -> budget): font sizes, non-neutral colours,
+ *      boxes inside boxes, border plus background, words in a heading. Over the budget fails; near it warns.
  *
  *   node scripts/check-pages.ts            run after `npm run build`
  *   node scripts/check-pages.ts --verbose  print every finding, including warnings
+ *   node scripts/check-pages.ts --budget   also print the budget counts of every page (the largest of both viewports)
  */
 import { spawn, type ChildProcess } from "node:child_process";
 import { createServer, type Server } from "node:http";
@@ -23,12 +26,20 @@ import { createServer as netServer } from "node:net";
 import { dirname, extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium, type Browser, type Page, type Route } from "playwright";
-import { loadRaw } from "./lib/tokens.ts";
+import { entries, loadRaw } from "./lib/tokens.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const verbose = process.argv.includes("--verbose");
 const raw = loadRaw(root);
 const floors = Object.fromEntries(Object.entries(raw.evidence.floors).map(([k, v]) => [k, v.value])) as Record<string, number>;
+/** Floors plus the complexity budget (tokens.json -> budget, a convention): "budget.<metric>" and "budget.<metric>.warn". */
+const limits: Record<string, number> = { ...floors };
+for (const [k, v] of entries(raw.budget)) {
+  const b = v as { value: number; warn?: number };
+  limits[`budget.${k}`] = b.value;
+  if (b.warn !== undefined) limits[`budget.${k}.warn`] = b.warn;
+}
+const showBudget = process.argv.includes("--budget");
 const require = createRequire(join(root, "packages/design/package.json"));
 const fontDir = join(dirname(require.resolve("@fontsource-variable/eb-garamond/package.json")), "files");
 
@@ -138,7 +149,7 @@ const OBSERVE = `
 type Finding = { rule: string; detail: string; warn?: boolean };
 
 /** Runs in the page. Returns the typography, target-size, chart and redundancy findings. */
-function lint(f: Record<string, number>): Finding[] {
+function lint(f: Record<string, number>): { findings: Finding[]; metrics: Record<string, number> } {
   const out: { rule: string; detail: string; warn?: boolean }[] = [];
   const visible = (el: Element) => {
     const r = el.getBoundingClientRect();
@@ -263,12 +274,105 @@ function lint(f: Record<string, number>): Finding[] {
   for (const svg of document.querySelectorAll("svg[role=img]")) {
     if (!svg.getAttribute("viewBox") && !(svg.hasAttribute("width") && svg.hasAttribute("height"))) out.push({ rule: "layout.media-size", detail: `svg without viewBox or size: ${name(svg)}` });
   }
-  return out;
+  /* Complexity budget (tokens.json -> budget; docs/evidence.md, "Simplicity"). Counted per page, as rendered:
+     distinct font sizes, distinct non-neutral colours (a heatmap ramp counts once), nesting of bordered boxes,
+     non-control elements with both a border and a background, and words in the longest heading. A specimen
+     ([data-kc-specimen]: a block that shows the scale or the palette on purpose) is not counted. A sheet or a slide
+     is the page itself, not a box. Over f["budget.<k>"] fails; at or over f["budget.<k>.warn"] warns. */
+  const SKIP = "[data-kc-specimen], .kc-skip, .kc-visually-hidden, script, style, title, desc";
+  const CONTROL = "input, select, textarea, button, a, label, summary, .kc-pill, .kc-diff, .kc-affix, .kc-seg__option span, .kc-sheet, .kc-slide";
+  const RAMP = "[class*='kc-c-div-'], [class*='kc-c-seq-'], .kc-scale";
+  const counted = (el: Element) => !el.closest(SKIP) && visible(el);
+  const ownText = (el: Element) => [...el.childNodes].some((n) => n.nodeType === 3 && (n.textContent ?? "").trim());
+  const px = document.createElement("canvas").getContext("2d", { willReadFrequently: true })!;
+  const rgba = (c: string) => {
+    px.clearRect(0, 0, 1, 1);
+    px.fillStyle = "rgba(0,0,0,0)";
+    px.fillStyle = c;
+    px.fillRect(0, 0, 1, 1);
+    return px.getImageData(0, 0, 1, 1).data;
+  };
+  const shown = (c: string) => rgba(c)[3] >= 26; // alpha >= 0.1
+  const cache = new Map<string, string | null>();
+  /** "#rrggbb" if the colour is visible (alpha >= 0.1) and not neutral (OKLab chroma >= 0.04), else null. */
+  const accent = (c: string): string | null => {
+    if (!cache.has(c)) {
+      const [r, g, b, al] = rgba(c);
+      const lin = (v: number) => ((v /= 255) <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+      const [R, G, B] = [lin(r), lin(g), lin(b)];
+      const l = Math.cbrt(0.4122214708 * R + 0.5363325363 * G + 0.0514459929 * B);
+      const m = Math.cbrt(0.2119034982 * R + 0.6806995451 * G + 0.1073969566 * B);
+      const s = Math.cbrt(0.0883024619 * R + 0.2817188376 * G + 0.6299787005 * B);
+      const chroma = Math.hypot(1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s, 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s);
+      cache.set(c, al < 26 || chroma < 0.04 ? null : "#" + [r, g, b].map((v) => v.toString(16).padStart(2, "0")).join(""));
+    }
+    return cache.get(c)!;
+  };
+  const SIDES = ["Top", "Right", "Bottom", "Left"] as const;
+  const side = (cs: CSSStyleDeclaration, sd: (typeof SIDES)[number]) => parseFloat(cs[`border${sd}Width`]) > 0 && cs[`border${sd}Style`] !== "none" && shown(cs[`border${sd}Color`]);
+  /** A bordered box: a block (not a control, not inline, not SVG) with a visible border on all four sides. */
+  const isBox = (el: Element, cs: CSSStyleDeclaration) =>
+    !el.matches(CONTROL) && !cs.display.startsWith("inline") && cs.display !== "contents" && !el.closest("svg") && SIDES.every((sd) => side(cs, sd));
+  const sizes = new Set<number>();
+  const colours = new Set<string>();
+  let depth = 0, boxed = 0, words = 0, deepest = "", boxedName = "", wordiest = "";
+  for (const el of document.body.querySelectorAll("*")) {
+    if (!counted(el)) continue;
+    const cs = getComputedStyle(el);
+    const svgEl = !!el.closest("svg");
+    if (ownText(el)) {
+      sizes.add(Math.round(parseFloat(cs.fontSize) * 2) / 2);
+      const a = accent(cs.color);
+      if (a) colours.add(a);
+    }
+    if (el.closest(RAMP)) colours.add("one heatmap ramp");
+    else if (svgEl) {
+      for (const c of [cs.fill, cs.stroke]) {
+        const a = accent(c);
+        if (a) colours.add(a);
+      }
+    } else {
+      const bg = accent(cs.backgroundColor);
+      if (bg) colours.add(bg);
+      for (const sd of SIDES) {
+        const a = side(cs, sd) && accent(cs[`border${sd}Color`]);
+        if (a) colours.add(a);
+      }
+      if (isBox(el, cs)) {
+        let d = 0;
+        for (let p: Element | null = el; p && p !== document.body; p = p.parentElement) if (isBox(p, getComputedStyle(p))) d++;
+        if (d > depth) [depth, deepest] = [d, name(el)];
+      }
+      if (!el.matches(CONTROL) && SIDES.some((sd) => side(cs, sd)) && shown(cs.backgroundColor)) {
+        boxed++;
+        if (boxed <= 3) boxedName += (boxedName ? "; " : "") + name(el);
+      }
+    }
+    if (el.matches("h1, h2, h3, h4, h5, h6, [role=heading]")) {
+      const w = (el.textContent ?? "").trim().split(/\s+/).filter(Boolean).length;
+      if (w > words) [words, wordiest] = [w, name(el)];
+    }
+  }
+  const metrics: Record<string, [number, string]> = {
+    fontSizes: [sizes.size, [...sizes].sort((a, b) => a - b).join(", ") + " px"],
+    accentColours: [colours.size, [...colours].join(", ")],
+    boxDepth: [depth, deepest],
+    borderAndBackground: [boxed, boxedName],
+    headingWords: [words, wordiest],
+  };
+  for (const [k, [v, where]] of Object.entries(metrics)) {
+    const limit = f[`budget.${k}`];
+    if (limit === undefined) continue;
+    const warn = f[`budget.${k}.warn`];
+    if (v > limit) out.push({ rule: `budget.${k}`, detail: `${v} > ${limit}: ${where}` });
+    else if (warn !== undefined && v >= warn) out.push({ rule: `budget.${k}`, detail: `${v}, near the limit of ${limit}: ${where}`, warn: true });
+  }
+  return { findings: out, metrics: Object.fromEntries(Object.entries(metrics).map(([k, [v]]) => [k, v])) };
 }
 
 /* ---------- Run ---------- */
 
-type Result = { page: string; viewport: string; scenario: Scenario; shift: number; shifts: { value: number; t: number; sources: string[] }[]; findings: Finding[] };
+type Result = { page: string; viewport: string; scenario: Scenario; shift: number; shifts: { value: number; t: number; sources: string[] }[]; findings: Finding[]; metrics: Record<string, number> };
 
 async function measure(browser: Browser, url: string, label: string, viewport: { name: string; width: number; height: number }, scenario: Scenario): Promise<Result> {
   const ctx = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height }, colorScheme: "light" });
@@ -279,9 +383,9 @@ async function measure(browser: Browser, url: string, label: string, viewport: {
   await page.waitForLoadState("networkidle");
   await page.waitForTimeout(scenario === "fonts-delayed" ? FONT_DELAY + 500 : 500);
   const shifts = (await page.evaluate("window.__shifts")) as Result["shifts"];
-  const findings = scenario === "fonts-ready" ? await page.evaluate(lint, floors) : [];
+  const { findings, metrics } = scenario === "fonts-ready" ? await page.evaluate(lint, limits) : { findings: [], metrics: {} };
   await ctx.close();
-  return { page: label, viewport: viewport.name, scenario, shift: shifts.reduce((s, e) => s + e.value, 0), shifts, findings };
+  return { page: label, viewport: viewport.name, scenario, shift: shifts.reduce((s, e) => s + e.value, 0), shifts, findings, metrics };
 }
 
 async function main() {
@@ -306,7 +410,7 @@ async function main() {
     const scenarios: Scenario[] = ["fonts-ready", "fonts-delayed", "fonts-blocked"];
     const jobs = pages.flatMap((p) => viewports.flatMap((v) => scenarios.map((s) => () => measure(browser, p.url, p.label, v, s))));
     // Self-test: every rule must fire on the fixture, or the gate itself is broken.
-    const RULES = ["layout-shift", "type.size", "type.line-height", "type.measure", "target.2.5.8", "chart.value-axis", "chart.grid-gap", "colour.redundancy", "font.embedded", "layout.media-size", "layout.reflow"];
+    const RULES = ["layout-shift", "type.size", "type.line-height", "type.measure", "target.2.5.8", "chart.value-axis", "chart.grid-gap", "colour.redundancy", "font.embedded", "layout.media-size", "layout.reflow", ...Object.keys(raw.budget).filter((k) => !k.startsWith("$")).map((k) => `budget.${k}`)];
     const fixture = `${staticBase}/scripts/fixtures/gate-violations.html`;
     const selfTest = await measure(browser, fixture, "fixture", viewports[0], "fonts-ready");
     const fired = new Set([...selfTest.findings.map((f) => f.rule), ...(selfTest.shift > 0 ? ["layout-shift"] : [])]);
@@ -347,13 +451,25 @@ async function main() {
         }
       }
     }
+    if (showBudget) {
+      const keys = Object.keys(raw.budget).filter((k) => !k.startsWith("$"));
+      const rows = new Map<string, number[]>();
+      for (const r of results) {
+        if (r.scenario !== "fonts-ready") continue;
+        const row = rows.get(r.page) ?? keys.map(() => 0);
+        keys.forEach((k, i) => (row[i] = Math.max(row[i], r.metrics[k] ?? 0)));
+        rows.set(r.page, row);
+      }
+      console.log(["page", ...keys].join("\t"));
+      for (const [p, row] of [...rows].sort()) console.log([p, ...row].join("\t"));
+    }
     const summary = [...byRule].map(([k, v]) => `${k} ${v}`).join(", ") || "none";
     console.log(`pages checked: ${pages.length} pages x ${viewports.length} viewports x ${scenarios.length} network conditions = ${results.length} loads; findings: ${summary}`);
     console.log(`gate self-test: ${RULES.length - silent.length} of ${RULES.length} rules fire on the fixture`);
     if (failures || silent.length) {
       console.error(`${failures} failure(s), ${warnings} warning(s). docs/evidence.md explains each rule; AGENTS.md says how to fix.`);
       process.exitCode = 1;
-    } else console.log(`pages ok: no layout shift, typography floors, target sizes, chart sizes and colour redundancy hold (${warnings} warning(s); --verbose lists them)`);
+    } else console.log(`pages ok: no layout shift, typography floors, target sizes, chart sizes, colour redundancy and the complexity budget hold (${warnings} warning(s); --verbose lists them)`);
   } finally {
     await browser.close();
     server.close();

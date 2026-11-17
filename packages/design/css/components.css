@@ -24,7 +24,7 @@
   a { color: inherit; text-decoration-thickness: var(--kc-rule-width); text-underline-offset: 0.18em; }
   a:hover { text-decoration-thickness: 2px; }
   :focus-visible { outline: var(--kc-rule-focus) solid var(--kc-ink); outline-offset: 2px; }
-  code, kbd, samp { font-family: var(--kc-mono); font-size: 0.875em; }
+  code, kbd, samp { font-family: var(--kc-mono); }
   [data-theme] { background: var(--kc-paper); color: var(--kc-ink); }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; }
@@ -158,7 +158,7 @@
     color: var(--kc-muted); max-width: var(--kc-measure-wide);
   }
   .kc-note b, .kc-note strong { color: var(--kc-ink); font-weight: var(--kc-weight-bold); }
-  .kc-fnref { font: var(--kc-weight-bold) 0.65em/0 var(--kc-sans); vertical-align: super; margin-left: 1px; }
+  .kc-fnref { font: var(--kc-weight-bold) var(--kc-text-xs)/0 var(--kc-sans); vertical-align: super; margin-left: 1px; }
   .kc-fnref a { text-decoration: none; padding: 0 2px; }
   .kc-footnotes {
     margin: 0; padding: var(--kc-s2) 0 0 1.6em; border-top: var(--kc-rule-width) solid var(--kc-hair);
@@ -200,17 +200,17 @@
   /* ---------- Flow strip: who does what, in order ---------- */
   .kc-flow {
     margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; overflow: hidden;
-    border: var(--kc-rule-width) solid var(--kc-rule);
+    border-top: var(--kc-rule-width) solid var(--kc-rule); border-bottom: var(--kc-rule-width) solid var(--kc-hair);
     font: var(--kc-weight-regular) var(--kc-text-sm) / var(--kc-leading-data) var(--kc-sans);
   }
-  /* Each cell draws its left and top hairline and shifts 1px over the frame, so lines stay clean when cells wrap. */
+  /* A ruled strip, not a box. Each cell draws its left and top hairline and shifts 1px under the clip, so lines stay
+     clean when cells wrap. */
   .kc-flow > li {
     flex: 1 1 var(--kc-s8); min-width: 0; padding: var(--kc-s3); display: flex; flex-direction: column; gap: var(--kc-s1);
     border-left: var(--kc-rule-width) solid var(--kc-hair); border-top: var(--kc-rule-width) solid var(--kc-hair);
     margin: -1px 0 0 -1px;
   }
   .kc-flow__title { font-size: var(--kc-text-xs); font-weight: var(--kc-weight-bold); letter-spacing: var(--kc-tracking-head); text-transform: uppercase; }
-  .kc-flow > li.kc-flow--yours { background: var(--kc-paper-2); }
 
   /* ---------- Phase / timeline list ---------- */
   .kc-phases { list-style: none; margin: 0; padding: 0; border-top: var(--kc-rule-width) solid var(--kc-hair); }
@@ -428,7 +428,7 @@
     font-family: var(--kc-sans);
   }
   .kc-nav__brand {
-    font: var(--kc-weight-medium) var(--kc-text-base) / 1 var(--kc-serif); letter-spacing: 0.04em; text-decoration: none;
+    font: var(--kc-weight-medium) var(--kc-text-lg) / 1 var(--kc-serif); letter-spacing: 0.04em; text-decoration: none;
     padding-bottom: var(--kc-s3);
   }
   .kc-nav__brand span { color: var(--kc-muted); }
@@ -550,7 +550,7 @@
     background: var(--kc-paper); border: var(--kc-rule-width) solid var(--kc-hair);
     display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding: 4cqw 5.5cqw 3cqw; overflow: hidden;
   }
-  .kc-slide__top { display: flex; justify-content: space-between; align-items: center; border-bottom: var(--kc-rule-width) solid var(--kc-rule); padding-bottom: 1cqw; font: var(--kc-weight-regular) max(10px, 1.4cqw) / 1.2 var(--kc-sans); letter-spacing: var(--kc-tracking-caps); text-transform: uppercase; color: var(--kc-muted); }
+  .kc-slide__top { display: flex; justify-content: space-between; align-items: center; border-bottom: var(--kc-rule-width) solid var(--kc-rule); padding-bottom: 1cqw; font: var(--kc-weight-regular) max(10px, 1.3cqw) / 1.2 var(--kc-sans); letter-spacing: var(--kc-tracking-caps); text-transform: uppercase; color: var(--kc-muted); }
   .kc-slide__body { display: flex; flex-direction: column; justify-content: center; gap: 2cqw; min-height: 0; }
   .kc-slide__body > * { margin: 0; }
   .kc-slide__title { font: var(--kc-weight-medium) 4.4cqw / 1.1 var(--kc-serif); text-wrap: balance; max-width: 30ch; }

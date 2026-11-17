@@ -96,7 +96,7 @@ export default function MeroQuote() {
             <Callout label="What can happen">
               <p>
                 If CC falls about 35% and stays there, the loan reaches the margin call at {q.marginCall}: you add CC or repay part within 24 hours. At{" "}
-                {q.liquidation} we sell enough CC to repay the loan. <Evidence kind="F" /> CC has fallen 35% within 90 days twice since 2024.
+                {q.liquidation}, the lender sells enough CC to repay the loan. <Evidence kind="F" /> CC has fallen 35% within 90 days twice since 2024.
               </p>
             </Callout>
             <LegalBox
@@ -129,7 +129,7 @@ export default function MeroQuote() {
               <Button kind="primary">Accept this offer</Button>
               <Button>Change terms</Button>
             </Actions>
-            <Note>Interest {q.rate} a year on the amount borrowed. Figures come from credit-api; the page does no arithmetic on money.</Note>
+            <Note>Interest {q.rate} a year on the amount borrowed.</Note>
           </div>
         </Split>
       </div>

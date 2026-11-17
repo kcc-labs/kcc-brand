@@ -41,9 +41,9 @@ export default function RatingReport() {
             { label: "12-month default band", value: <>0.5–1.5% <Tag>sample</Tag></> },
           ]}
         />
-        <Section id="rr-why" eyebrow="Rationale" title="Strong coverage and a second price check; collateral is concentrated in one asset">
+        <Section id="rr-why" eyebrow="Rationale" title="Strong coverage and a second price check; collateral is concentrated">
           <p>
-            <Evidence kind="F" /> Median collateral coverage is 2.6 times debt, and 4.1% of debt sits within 10% of liquidation. <Evidence kind="F" /> Two
+            <Evidence kind="F" /> Coverage is high and little debt sits near liquidation (key metrics, below). <Evidence kind="F" /> Two
             independent price sources gate new borrowing. <Evidence kind="I" /> Collateral is mostly CC, so a fall in CC moves every position together; this
             caps the grade at B.
           </p>
