@@ -88,6 +88,7 @@ unnecessary; every element earns its place. Do not copy Apple's look (no SF font
   name of a real client, prospect or partner, their data, their simulation results, a "Confidential — for <name>"
   mark with a real name, a party id, a real email address, an internal host or path, or a secret. Examples use
   fictional names ("Example Lending Pool", "Northwind Capital") and round numbers labelled "Sample data".
+- Print with `scripts/print-pdf.sh page.html out.pdf [scale]`. To fit more on a page, pass a scale (for example 0.8); never shrink with CSS `zoom` or `transform`: they give fractional widths and the page margin clips borders on the right edge. `print-pdf.ts` also keeps content 2px inside the printable area, because a 1px border that ends exactly on its edge is half cut.
 - Review every printed document page by page: `scripts/print-pdf.sh page.html out.pdf` writes the PDF and one PNG per
   page; look at each page for orphaned headings, half-empty pages and clipped charts before sending.
 
